@@ -1,0 +1,54 @@
+$def with (name, str1, report, conf_id)
+
+$var title: 已报名清单
+$var css:
+$var js: 
+$var name: $'|'.join(str1) $name
+$var load: 
+$var menu: #rept1
+
+<script type="text/javascript">
+function goReport(){
+    window.location.href='/plat/signup_list?conf_id=$conf_id&ret_type=';
+}
+</script>
+
+<div class="caption"><h2>已报名清单</h2></div>
+
+<div class="article_box">
+
+<table class="props_tb">
+<thead>
+  <tr class="even">
+    <th>序号</th>
+    <th>姓名</th>
+    <th>手机号</th>
+    <th>工作单位</th>
+    <th>职称</th>
+    <th>职务</th>
+    <th>是否晚餐</th>
+    <th>是否午餐</th>
+    <th>是否安排入住</th>
+    <th>报名时间</th>
+  </tr>
+</thead>
+<tbody>
+$for u in report:
+  <tr>
+  <td>$u[0]</td>
+  <td>$u[1]</td>
+  <td>$u[2]</td>
+  <td>$u[3]</td>
+  <td>$u[4]</td>
+  <td>$u[5]</td>
+  <td>$u[6]</td>
+  <td>$u[7]</td>
+  <td>$u[8]</td>
+  <td>$u[9]</td>
+  </tr>
+</tbody>
+</table>
+
+<p><input class="formbutton" type="button" name="button" id="button" value="导出csv" onclick="goReport();" /></p>
+
+</div>

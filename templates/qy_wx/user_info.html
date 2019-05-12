@@ -1,0 +1,60 @@
+$def with (session_id, user_info)
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="" name="description">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="format-detection" content="telephone=no">
+        <title>企业用户信息</title>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" />
+        <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+        <style>
+            body{font-family:"Microsoft YaHei",Arial; overflow-x:hidden; overflow-y:auto; margin: 5px 5px 5px 5px;}
+        </style>
+    </head>
+<body>
+
+<script type="text/javascript">
+$$(function () { // 关闭分享
+});
+</script> 
+
+<h3 class="text-center">企业用户信息</h3>
+
+<br/>
+
+<input type="hidden" id="session_id" value="$session_id"/>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th scope="row">姓名</th>
+            <td><span id="text_name">$user_info.get('name', '')</span></td>
+        </tr>
+        <tr>
+            <th scope="row">企业微信id</th>
+            <td><span id="text_name">$user_info['user_id']</span></td>
+        </tr>
+        <tr>
+            <th scope="row">教工号</th>
+            <td><span id="text_name">$user_info.get('career_code', '')</span></td>
+        </tr>
+        <tr>
+            <th scope="row">手机号</th>
+            <td><span id="text_name">$user_info.get('mobile', '')</span></td>
+        </tr>
+        <tr>
+            <th scope="row">电子邮箱</th>
+            <td><span id="text_name">$user_info.get('email', '')</span></td>
+        </tr>
+
+    </tbody>
+</table>
+
+</body>
+</html>
+
+

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+    <meta content="" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+	<title>医院员工入口</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" />
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="http://rescdn.qqmail.com/node/ww/wwopenmng/js/sso/wwLogin-1.0.0.js"></script>
+    <style>
+        body{font-family:"Microsoft YaHei",Arial; overflow-x:hidden; overflow-y:auto; margin: 5px 5px 5px 5px;}
+    </style>    
+</head>
+<body >
+
+<h3 class="text-center">厦门大学附属翔安医院</h3>
+
+<br/>
+
+
+<div class="form-group" id="login_qrcode">
+    <div class="col-sm-12">
+            <div id="wx_qrcode"> </div>
+    </div>
+</div>
+
+<div class="form-group" id="login_btn">
+    <div class="col-sm-12">
+            <div><a class="btn btn-primary btn-lg" role="button" href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc10f1e316058780e&redirect_uri=http%3a%2f%2fxah-wx.xmu.edu.cn%2fqywx%2fuser_info&response_type=code&scope=snsapi_base&state=PASS#wechat_redirect">企业微信登录</a></div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+function is_weixin() {
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        return true;
+    }
+    else
+        return false;
+}
+
+$(function(){
+    if (is_weixin()){
+        $("#login_qrcode").hide();
+    }
+    else{
+        $("#login_btn").hide();
+        window.WwLogin({
+            "id"           : "wx_qrcode",  
+            "appid"        : "wxc10f1e316058780e",
+            "agentid"      : "1000010",
+            "redirect_uri" : "http://xah-wx.xmu.edu.cn/qywx/user_info",
+            "state"        : "PASS",
+            "href"         : "",
+        });
+    }
+});
+</script>
+
+
+    
+</body>
+</html>
