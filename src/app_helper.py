@@ -40,48 +40,7 @@ def my_rand(n=4, base=0):
     return ''.join([random.choice(RAND_BASE[base]) for ch in range(n)])
 
 
-
-# 快递承运商
-CARRIER = {
-    1 : '中通速递',
-    2 : '韵达快运',
-    3 : '如风达',
-    4 : '供应商直发',
-    5 : '顺丰速运',
-    6 : '飞远配送',
-    7 : '南京晟邦',
-    8 : '城市100',
-    9 : '哟客',
-    11: '申通快递',
-    12: '德邦物流',
-    13: '圆通速递',
-    14: '邮政小包',
-    15: '邮政EMS经济快递',
-    16: '邮政EMS标准快递包',
-    17: '汇通包',
-    18: '天天快递',
-    19: '宅急送',
-    20: '黑猫宅急便',
-    21: '京东快递',
-    22: '快捷快递',
-    23: '全峰快递',
-    24: '百世汇通',
-    100: '山东晟邦',
-}
-
 #==========================================================================
-
-# 不能分销朋友圈的 region_id
-WX_CAN_NOT_SHARE_TIMWLINE = [
-    '003', '000', # 华东
-    '001', '999', # 东南
-]
-
-# 区域代码 对应省
-REGION_SHENG = {
-    '000' : ['上海', '浙江', '江苏', '安徽'],
-}
-
 
 
 BLOCK_LIST = [
@@ -259,18 +218,6 @@ def event_send_wx_msg(openid, text, region_id, url=''):
             'openid'    : openid,
             'text'      : text,
             'url'       : url
-        }
-    })
-
-# 推送订单到WMS
-def event_push_order(order_id):
-    if order_id.strip()=='':
-        return None
-    db.event_queue.insert_one({
-        'type' : 'PUSH_ORDER',
-        'status' : 'WAIT',
-        'data' : {
-            'order_id' : order_id,
         }
     })
 

@@ -44,7 +44,7 @@ app_pool=['xah-wx.xmu.edu.cn']
 
 WX_store = {
     '000' : { # 测试
-        'wx_appid' : 'wxf28f23539c5821be',
+        'wx_appid' : '',
         'wx_appsecret' : '9e9ee82b0f6083311ec1c51e726dedf0',
         'mch_id' : '1408035102',
     },

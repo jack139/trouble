@@ -5,8 +5,8 @@ import urllib2, urllib
 import json
 #from config import setting
 
-# 东南
-wx_appid='wxf28f23539c5821be'
+# 
+wx_appid=''
 wx_secret='9e9ee82b0f6083311ec1c51e726dedf0'
 
 wx_param={

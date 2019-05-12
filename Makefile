@@ -6,7 +6,7 @@ CONFIG = config
 SRC = src
 SRC_CONF = $(SRC)/$(CONFIG)
 
-TARGETS = trouble 
+TARGETS = trouble
 TARGET_CONF = $(TARGETS)/$(CONFIG)
 
 all: clean $(TARGETS)

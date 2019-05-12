@@ -9,7 +9,7 @@ import time, datetime, os
 import urllib2
 import re
 from config import setting
-from app_helper import IS_TEST, CATEGORY
+#from app_helper import IS_TEST, CATEGORY
 
 db = setting.db_web
 
@@ -49,103 +49,56 @@ PRIV_VISITOR  = 0b00000000  # 0
 
 # 菜单权限
 MENU_LEVEL = {
-    'JOB_LIST'       : 0,   # 应聘信息表
-    'REPORT_REPORT1' : 14,  # 报表
+    'TICKET_OP'   : 0, # 问题处理
+    'TICKET_USER' : 1, # 问题提交 
+    'REPORT'      : 2, # 报表
 }
 
 user_level = {
     PRIV_VISITOR  : '访客',
     PRIV_ADMIN    : '管理员',
     PRIV_USER     : '平台管理', 
-    #PRIV_ORDER    : '订单管理', 
-    #PRIV_WHOUSE   : '仓储管理', 
-    #PRIV_SHOP     : '门店POS',
-    PRIV_DELIVERY : '快递员',
-    #PRIV_SERVICE  : '客服',
 }
 
 #################
 
-
-CLASSIFICATION = {
-    1 : "生鲜",
-    2 : "食品",
-    9 : "组合",
-    0 : "物料"
+TICKET_TYPE = {
+    1 : "HIS",
+    2 : "HRP",
+    3 : "PACS",
+    4 : "LIS",
+    5 : "支付平台",
+    6 : "公众号",
+    7 : "办公PC",
+    8 : "打印机",
+    9 : "网络",
+    0 : "其他问题",
 }
 
-
-STOCK_TYPE = {
-    1 : "整进整出",
-    2 : "散进散出",
-    3 : "散进整出",
+TICKET_SOURCE = {
+    1 : "电话",
+    2 : "微信",
+    3 : "书面单据",
 }
 
-
-MERCHANT_TYPE = {
-    0 : "自营",
-    8 : "商家",
-    9 : "DSV",
+TICKET_STATUS = {
+    'WAIT'     : '等待处理',
+    'OPEN'     : '处理中',
+    'PREOPEN'  : '等待重新处理',
+    'PRECLOSE' : '等待确认完成',
+    'CLOSED'   : '已完成',
 }
 
-
-
-
-SHOP_TYPE = {
-    'chain'   : '直营店',
-    'store'   : '加盟店',
-    'dark'    : '暗店',
-    'house'   : '仓库',
-    'pt_house': '发货仓库',
-    'virtual' : '虚拟仓',
-    'dsv'     : 'DSV商家仓',
-}
-
-
-ORDER_STATUS = {
-    'APP' : { # 线上订单
-        'name'     : '线上订单',
-        'DUE'      : '待支付',
-        'PREPAID'  : '付款确认中',
-        'PAID'     : '已付款',
-        'DISPATCH' : '待配送',
-        'ONROAD'   : '配送中',
-        'COMPLETE' : '配送完成',
-        'FINISH'   : '已完成',
-        'CANCEL'   : '已取消',
-        'TIMEOUT'  : '已过付款期限',
-        'GAP'      : '缺货处理',
-        'REFUND'   : '已操作退款',
-        'FAIL'     : '配送失败',
-        'CANCEL1'  : '第3方取消订单1',
-        'CANCEL2'  : '第3方取消订单2',
-        'CANCEL3'  : '第3方取消订单3',
-        'CANCEL4'  : '第3方取消订单4',
-        # 拼团使用
-        'PAID_AND_WAIT'    : '已付款，待成团',
-        'FAIL_TO_REFUND'   : '拼团失败，待退款',
-        'CANCEL_TO_REFUND' : '已取消，待退款'
-    }
-}
-
-# 退款原因
-_REFUND_REASON = {
-    '第三方快递责任': 'A',
-    '自营配送责任': 'B',
-    '仓库责任': 'C',
-    '商品部责任':'D',
-    '系统责任': 'E',
-    '顾客责任': 'F',
-    '财务责任': 'G',
-    '客服责任': 'H',
-    '发货前取消': 'I',
-    'APP取消订单': 'J',
-    '整单取消全额退款': 'K',
-    '其他责任': 'X'
+# 关闭原因原因
+_CLOSE_REASON = {
+    '处理完成'       : 'A',
+    '问题描述不清'    : 'B',
+    '未发现问题'      : 'C',
+    '提交了重复的问题' :'D',
 }
 
 # 对字典按照value排序
-REFUND_REASON = sorted(_REFUND_REASON.iteritems(), key=lambda d: d[1])
+CLOSE_REASON = sorted(_CLOSE_REASON.iteritems(), key=lambda d: d[1])
 
 
 # 为子文件传递session ---------------------

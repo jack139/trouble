@@ -5,7 +5,7 @@ import urllib2, urllib
 import json
 #from config import setting
 
-wx_appid='wxf28f23539c5821be'
+wx_appid=''
 wx_secret='9e9ee82b0f6083311ec1c51e726dedf0'
 
 wx_menu={
@@ -23,11 +23,6 @@ wx_menu={
                     'name' :'医院新闻',
                     'media_id'  : 'yv6zc-7W2WLqyZT8dQoUYGivOy3Vt_ndP3oMjyfwk5E',
                 },
-                #{
-                #    'type':'click',
-                #    'name':'通知公告',
-                #    'key'  : 'CLICK_WAIT',
-                #},
                 {
                     'type':'media_id',
                     'name':'党建工作',
@@ -40,26 +35,6 @@ wx_menu={
                 },
             ]
         },
-        #{
-        #    'name':'科室介绍',
-        #    'sub_button':[
-        #        {
-        #            'type':'click',
-        #            'name':'科室设置',
-        #            'key'  : 'CLICK_WAIT',
-        #        },
-        #        {
-        #            'type':'click',
-        #            'name':'学科团队',
-        #            'key'  : 'CLICK_WAIT',
-        #        },
-        #        {
-        #            'type':'click',
-        #            'name':'专家介绍',
-        #            'key'  : 'CLICK_WAIT',
-        #        },
-        #    ]
-        #},
         {
             'name' : '专家介绍',
             'type' : 'view',
@@ -68,11 +43,6 @@ wx_menu={
         {
             'name':'就医导航',
             'sub_button':[
-                #{
-                #    'type':'view',
-                #    'name':'内部测试',
-                #    'url'  : 'http://xah-wx3.xmu.edu.cn:9090/hospitalPortal-web/xiamen/xianganyiyuan/index',
-                #},
                 {
                     'type':'click',
                     'name':'交通指南',
@@ -88,47 +58,8 @@ wx_menu={
                     'name':'预约挂号',
                     'key'  : 'CLICK_WAIT',
                 },
-                #{
-                #    'type':'click',
-                #    'name':'当日挂号',
-                #    'key'  : 'CLICK_WAIT',
-                #},
-                #{
-                #    'type':'click',
-                #    'name':'医保政策',
-                #    'key'  : 'CLICK_WAIT',
-                #},
-                #{
-                #    'type':'view',
-                #    'name':'报名测试',
-                #    'url'  : 'http://xah-wx.xmu.edu.cn/wx/init_signup',
-                #},
             ]
         },
-        #{
-        #    'name':'高峰论坛',
-        #    'sub_button':[
-        #        {
-        #            'type':'view',
-        #            'name':'论坛介绍',
-        #            #'url' :'http://h.eqxiu.com/s/Rl0azfod',
-        #            #'url' :'https://e.eqxiu.com/s/duBZfY9J',
-        #            'url' :'https://i.eqxiu.com/s/mvguSpDW',
-        #        },
-        #        #{
-        #        #    'type':'view',
-        #        #    'name':'参会报名',
-        #        #    'url' :'http://xah-wx.xmu.edu.cn/wx/init_signup',
-        #        #},
-        #        {
-        #            'type':'view',
-        #            'name':'会议通知文件',
-        #            'url' :'http://mp.weixin.qq.com/s/5yCI9WD-LwNjcZTwoa8UVA',
-        #            #'url' :'http://xah-wx.xmu.edu.cn/notice20180405.pdf',
-        #            #'key'  : 'CLICK_PDF',
-        #        },
-        #    ]
-        #},
     ]
 }
 
