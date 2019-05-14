@@ -25,14 +25,19 @@ $var name: $str1 $name
 <tr><td>注册时间</td><td class="t_l">$reg_time</td></tr>
 <tr><td rowspan="1">用户权限</td>
 <td class="t_l">
-    <input type="checkbox" name="priv" value="REPORT_REPORT1"
-    $if 'REPORT_REPORT1' in level:
+    <input type="checkbox" name="priv" value="TICKET_OP"
+    $if 'TICKET_OP' in level:
         checked="checked"
-    /> 已报名清单
-    <input type="checkbox" name="priv" value="JOB_LIST"
-    $if 'JOB_LIST' in level:
+    /> 问题处理
+    <input type="checkbox" name="priv" value="TICKET_USER"
+    $if 'TICKET_USER' in level:
         checked="checked"
-    /> 应聘信息表
+    /> 问题提交
+    <input type="checkbox" name="priv" value="REPORT"
+    $if 'REPORT' in level:
+        checked="checked"
+    /> 报表管理
+
 </td>
 </tr>
 
