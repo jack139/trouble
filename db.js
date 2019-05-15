@@ -9,7 +9,44 @@ user    后台登陆用户（系统）
 app_user    前端用户（微信／app）
 
 
+duty 值班记录
+{
+	date	值班日期
+	uid		值班人uid
+	name	值班人姓名
+	room1_device	大机房设备状况 	0 正常 1 异常
+	room2_device	小机房设备状况
+	room1_ups		大机房ups
+	room2_ups		小机房ups
+	room1_conditioner	大机房空调
+	room2_conditioner	小机房空调
+	room1_temp_humi		大机房温度/湿度	{ temp: '', humi: '' }
+	room2_temp_humi		小机房温度/湿度
+	device_issue		设备异常描述
+	device_solution		设备解决办法
 
+	system_big_issue	系统是否有重大事件 0 无 1 有
+	system_issue 		系统异常描述
+	system_solution		系统解决方法
+
+	duty_log		值班工作记录
+
+	status_key		钥匙交接情况
+	status_phone	手机交接情况
+	next_uid		交接人uid
+	next_name		交接人姓名
+	status_duty		值班记录状态： 0 未提交，未交接 1 已提交，未交接确认 2 已提交，已交接确认
+
+	save_t		保存时间
+	submit_t	提交时间
+	confirm_t	交接时间
+
+}
+
+ticket 问题记录
+{
+
+}
 
 
 
@@ -38,9 +75,3 @@ db.app_user.createIndex({reg_time:1},{ background: true })
 db.wx_user.createIndex({wx_user:1},{ background: true })
 db.wx_user.createIndex({last_tick:1},{ background: true })
 
-db.signup_user.createIndex({conf_id:1,completed:1},{ background: true })
-db.signup_user.createIndex({openid:1},{ background: true })
-db.signup_user.createIndex({name:1,phone:1,completed:1},{ background: true })
-
-db.job_sheet.createIndex({xm:1},{ background: true })
-db.job_sheet.createIndex({submit_time:1},{ background: true })

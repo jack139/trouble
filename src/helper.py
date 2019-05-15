@@ -52,6 +52,7 @@ MENU_LEVEL = {
     'TICKET_OP'   : 0, # 问题处理
     'TICKET_USER' : 1, # 问题提交 
     'REPORT'      : 2, # 报表
+    'ONDUTY'      : 3, # 值班记录
 }
 
 user_level = {

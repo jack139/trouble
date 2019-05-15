@@ -25,6 +25,10 @@ $var name: $str1 $name
 <tr><td>注册时间</td><td class="t_l">$reg_time</td></tr>
 <tr><td rowspan="1">用户权限</td>
 <td class="t_l">
+    <input type="checkbox" name="priv" value="ONDUTY"
+    $if 'ONDUTY' in level:
+        checked="checked"
+    /> 值班记录
     <input type="checkbox" name="priv" value="TICKET_OP"
     $if 'TICKET_OP' in level:
         checked="checked"
