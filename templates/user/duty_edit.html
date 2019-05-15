@@ -18,19 +18,125 @@ $else:
 <table class="props_tb">
 <thead>
     <tr class="even">
-        <th>项目</th>
-        <th width="40%">内容</th>
-        <th>说明</th>
+        <th width="20%"> </th>
+        <th width="40%"> </th>
+        <th width="40%"> </th>
     </tr>
 </thead>
 <tbody>
-<tr><td>规则名</td><td>
+<tr><td>值班日期</td><td colspan="2">
     <input type="text" name="rule_name" id="rule_name" value="$sku.get('rule_name', '')"/>
-    </td><td></td></tr>
+    </td></tr>
 
-<tr><td>关键词</td><td>
-    <textarea rows="5" cols="80" name="key_word">$sku.get('key_word', '')</textarea>
-    </td><td>关键词之间用逗号分隔</td></tr>
+<tr><td>值班人</td><td colspan="2">
+    <input type="text" name="rule_name" id="rule_name" value="$sku.get('rule_name', '')"/>
+    </td></tr>
+
+<tr><td colspan="3"><h1>一、机房运行情况</h1></td></tr>
+
+<tr><td>检查项</td><td>中心机房（住院2#）</td><td>小机房（医技2#）</td></tr>
+
+<tr>
+    <td>设备（服务器、路由器、交换机）运行情况</td>
+    <td><input type="radio" name="room1_device" value="0"> 正常 <input type="radio" name="room1_device" value="1"> 异常 </td>
+    <td><input type="radio" name="room2_device" value="0"> 正常 <input type="radio" name="room2_device" value="1"> 异常 </td>
+</tr>
+
+<tr>
+    <td>UPS运行情况</td>
+    <td><input type="radio" name="room1_ups" value="0"> 正常 <input type="radio" name="room1_ups" value="1"> 异常 </td>
+    <td><input type="radio" name="room2_ups" value="0"> 正常 <input type="radio" name="room2_ups" value="1"> 异常 </td>
+</tr>
+
+<tr>
+    <td>空调运行情况</td>
+    <td><input type="radio" name="room1_conditioner" value="0"> 正常 <input type="radio" name="room1_conditioner" value="1"> 异常 </td>
+    <td><input type="radio" name="room2_conditioner" value="0"> 正常 <input type="radio" name="room2_conditioner" value="1"> 异常 </td>
+</tr>
+
+<tr>
+    <td rowspan="2">空调温湿度记录</td>
+    <td><input type="text" name="room1_temp1" value=""> / <input type="text" name="room1_humi1" value=""></td>
+    <td rowspan="2"><input type="text" name="room2_temp" value=""> / <input type="text" name="room2_humi" value=""></td>
+</tr>
+
+<tr>
+    <td><input type="text" name="room1_temp2" value=""> / <input type="text" name="room1_humi2" value=""></td>
+</tr>
+
+
+<tr><td colspan="3"><h3>值班期间设备（服务器、路由器、交换机、UPS、空调等）出现异常情况请填写下表</h3></td></tr>
+
+<tr>
+    <td>异常情况描述</td>
+    <td colspan="2">
+        <textarea rows="5" cols="80" name="device_issue">$sku.get('device_issue', '')</textarea>    
+    </td>
+</tr>
+
+<tr>
+    <td>解决办法</td>
+    <td colspan="2">
+        <textarea rows="5" cols="80" name="device_solution">$sku.get('device_solution', '')</textarea>    
+    </td>
+</tr>
+
+<tr><td colspan="3"><h1>二、值班期间系统运维情况</h1></td></tr>
+
+<tr>
+    <td>有无重大突发事件</td>
+    <td colspan="2">
+        <input type="radio" name="system_big_issue" value="0"> 无 
+        <input type="radio" name="system_big_issue" value="1"> 有（请填写下列项目） 
+    </td>
+</tr>
+
+<tr>
+    <td>事件描述</td>
+    <td colspan="2">
+        <textarea rows="5" cols="80" name="system_issue">$sku.get('system_issue', '')</textarea>    
+    </td>
+</tr>
+
+<tr>
+    <td>解决办法</td>
+    <td colspan="2">
+        <textarea rows="5" cols="80" name="system_solution">$sku.get('system_solution', '')</textarea>    
+    </td>
+</tr>
+
+<tr>
+    <td>值班工作记录</td>
+    <td colspan="2">
+        <textarea rows="5" cols="80" name="duty_log">$sku.get('duty_log', '')</textarea>    
+    </td>
+</tr>
+
+<tr><td colspan="3"><h1>三、值班交班情况</h1></td></tr>
+
+<tr>
+    <td>休息室钥匙交接情况</td>
+    <td colspan="2">
+        <input type="radio" name="status_key" value="0"> 已交接
+        <input type="radio" name="status_key" value="1"> 未交接
+    </td>
+</tr>
+
+<tr>
+    <td>值班手机交接情况</td>
+    <td colspan="2">
+        <input type="radio" name="status_phone" value="0"> 已交接
+        <input type="radio" name="status_phone" value="1"> 未交接
+    </td>
+</tr>
+
+
+<tr>
+    <td>交接人</td>
+    <td colspan="2">
+    </td>
+</tr>
+
 
 <tr><td>回复类型</td><td>
     <input type="radio" name="reply_type" value="1"
@@ -44,7 +150,7 @@ $else:
     </td><td></td></tr>
 
 <tr><td>回复内容<br/>（病种名称 或 页面编码）</td><td>
-    <textarea rows="5" cols="80" name="reply">$sku.get('reply', '')</textarea>
+    <textarea rows="5" cols="40" name="reply">$sku.get('reply', '')</textarea>
     </td><td>病种名称必须与病种文件夹名一致；<br/> 页面编码支持大小写</td></tr>
 
 <tr><td>状态</td><td>

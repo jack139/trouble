@@ -20,7 +20,8 @@ duty 值班记录
 	room2_ups		小机房ups
 	room1_conditioner	大机房空调
 	room2_conditioner	小机房空调
-	room1_temp_humi		大机房温度/湿度	{ temp: '', humi: '' }
+	room1_temp_humi1		大机房温度/湿度1	{ temp: '', humi: '' }
+	room1_temp_humi2		大机房温度/湿度2	
 	room2_temp_humi		小机房温度/湿度
 	device_issue		设备异常描述
 	device_solution		设备解决办法
@@ -31,8 +32,8 @@ duty 值班记录
 
 	duty_log		值班工作记录
 
-	status_key		钥匙交接情况
-	status_phone	手机交接情况
+	status_key		钥匙交接情况 1 已交接 0 未交接
+	status_phone	手机交接情况 1 已交接 0 未交接
 	next_uid		交接人uid
 	next_name		交接人姓名
 	status_duty		值班记录状态： 0 未提交，未交接 1 已提交，未交接确认 2 已提交，已交接确认
