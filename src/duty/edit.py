@@ -35,7 +35,7 @@ class handler:
 
 
     def POST(self):
-        if not helper.logged(helper.PRIV_USER, 'DATA_MODIFY'):
+        if not helper.logged(helper.PRIV_USER, 'ONDUTY'):
             raise web.seeother('/')
         render = helper.create_render()
         user_data=web.input(duty_id='', duty_name='', duty_date='')
@@ -66,7 +66,7 @@ class handler:
                 'duty_date'         : duty_date,
                 'duty_name'         : user_data['duty_name'],
                 'room1_device'      : int(user_data.get('room1_device',-1)), 
-                'room2_device'      : int(user_data.get('room1_device',-1)), 
+                'room2_device'      : int(user_data.get('room2_device',-1)), 
                 'room1_ups'         : int(user_data.get('room1_ups',-1)), 
                 'room2_ups'         : int(user_data.get('room2_ups',-1)), 
                 'room1_conditioner' : int(user_data.get('room1_conditioner',-1)), 

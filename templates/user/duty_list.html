@@ -42,8 +42,8 @@ $$(function(){
 <tbody>
 $for u in list:
     <tr>
-        <td><a href="/duty/detail?id=$u['_id']">$u.get('date', '')</a></td>
-        <td>$u.get('name', '')</td>
+        <td><a href="/duty/edit?duty_id=$u['_id']">$u.get('duty_date', '')</a></td>
+        <td>$u.get('duty_name', '')</td>
         <td>$u.get('system_big_issue', 0)</td>
         <td>$u.get('next_name', 0)</td>
         <td>$u.get('status_duty', 0)</td>

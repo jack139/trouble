@@ -35,9 +35,12 @@ $else:
 </thead>
 <tbody>
 <tr><td>值班日期</td><td colspan="2">
-    <input type="text" name="duty_date" id="duty_date" value="$sku.get('duty_date', '')" readonly="readonly"/>
+    $if sku['duty_id']=='n/a':
+        <input type="text" name="duty_date" id="duty_date" value="" readonly="readonly"/>
+    $else:
+        <input type="text" name="duty_date"  value="$sku['duty_date']" readonly="readonly"/>
     </td></tr>
-
+        
 <tr><td>值班人</td><td colspan="2">
     <input type="text" name="duty_name" id="duty_name" value="$sku.get('duty_name', '')"/>
     </td></tr>
