@@ -11,17 +11,17 @@ app_user    前端用户（微信／app）
 
 duty 值班记录
 {
-	date	值班日期
-	uid		值班人uid
-	name	值班人姓名
+	duty_date	值班日期
+	duty_uid		值班人uid
+	duty_name		值班人姓名
 	room1_device	大机房设备状况 	0 正常 1 异常
 	room2_device	小机房设备状况
 	room1_ups		大机房ups
 	room2_ups		小机房ups
 	room1_conditioner	大机房空调
 	room2_conditioner	小机房空调
-	room1_temp_humi1		大机房温度/湿度1	{ temp: '', humi: '' }
-	room1_temp_humi2		大机房温度/湿度2	
+	room1_temp_humi1	大机房温度/湿度1	{ temp: '', humi: '' }
+	room1_temp_humi2	大机房温度/湿度2	
 	room2_temp_humi		小机房温度/湿度
 	device_issue		设备异常描述
 	device_solution		设备解决办法
@@ -36,7 +36,7 @@ duty 值班记录
 	status_phone	手机交接情况 1 已交接 0 未交接
 	next_uid		交接人uid
 	next_name		交接人姓名
-	status_duty		值班记录状态： 0 未提交，未交接 1 已提交，未交接确认 2 已提交，已交接确认
+	status_duty		值班记录状态： SAVED 未提交，未交接 CLOSED 已提交，未交接确认 FINISHED 已提交，已交接确认
 
 	save_t		保存时间
 	submit_t	提交时间

@@ -1,11 +1,21 @@
 $def with (name, str1, sku)
 
 $var title: 值班记录
-$var css: 
+$var css: /static/css/jquery.datetimepicker.css
 $var name: $'|'.join(str1) $name
-$var js: 
-$var load: 
+$var js: /static/js/jquery.datetimepicker.js
+$var load: first_do()
 $var menu: #duty1
+
+<script type="text/javascript">
+function first_do(){
+    $$('#duty_date').datetimepicker({
+        format     : 'Y-m-d', 
+        timepicker : false,
+        maxDate    : '+1970-01-01',
+    });
+}
+</script>
 
 $if sku['duty_id']=='n/a':
     <div class="caption"><h2>新增值班记录</h2></div>
@@ -25,11 +35,11 @@ $else:
 </thead>
 <tbody>
 <tr><td>值班日期</td><td colspan="2">
-    <input type="text" name="rule_name" id="rule_name" value="$sku.get('rule_name', '')"/>
+    <input type="text" name="duty_date" id="duty_date" value="$sku.get('duty_date', '')" readonly="readonly"/>
     </td></tr>
 
 <tr><td>值班人</td><td colspan="2">
-    <input type="text" name="rule_name" id="rule_name" value="$sku.get('rule_name', '')"/>
+    <input type="text" name="duty_name" id="duty_name" value="$sku.get('duty_name', '')"/>
     </td></tr>
 
 <tr><td colspan="3"><h1>一、机房运行情况</h1></td></tr>
@@ -38,30 +48,97 @@ $else:
 
 <tr>
     <td>设备（服务器、路由器、交换机）运行情况</td>
-    <td><input type="radio" name="room1_device" value="0"> 正常 <input type="radio" name="room1_device" value="1"> 异常 </td>
-    <td><input type="radio" name="room2_device" value="0"> 正常 <input type="radio" name="room2_device" value="1"> 异常 </td>
+    <td>
+        <input type="radio" name="room1_device" value="0"
+        $if int(sku.get('room1_device','-1'))==0:
+            checked="checked"
+        /> 正常
+        <input type="radio" name="room1_device" value="1"
+        $if int(sku.get('room1_device','-1'))==1:
+            checked="checked"
+        /> 异常
+    </td>
+    <td>
+        <input type="radio" name="room2_device" value="0"
+        $if int(sku.get('room2_device','-1'))==0:
+            checked="checked"
+        /> 正常
+        <input type="radio" name="room2_device" value="1"
+        $if int(sku.get('room2_device','-1'))==1:
+            checked="checked"
+        /> 异常
+    </td>
 </tr>
 
 <tr>
     <td>UPS运行情况</td>
-    <td><input type="radio" name="room1_ups" value="0"> 正常 <input type="radio" name="room1_ups" value="1"> 异常 </td>
-    <td><input type="radio" name="room2_ups" value="0"> 正常 <input type="radio" name="room2_ups" value="1"> 异常 </td>
+    <td>
+        <input type="radio" name="room1_ups" value="0"
+        $if int(sku.get('room1_ups','-1'))==0:
+            checked="checked"
+        /> 正常
+        <input type="radio" name="room1_ups" value="1"
+        $if int(sku.get('room1_ups','-1'))==1:
+            checked="checked"
+        /> 异常
+    </td>
+    <td>
+        <input type="radio" name="room2_ups" value="0"
+        $if int(sku.get('room2_ups','-1'))==0:
+            checked="checked"
+        /> 正常
+        <input type="radio" name="room2_ups" value="1"
+        $if int(sku.get('room2_ups','-1'))==1:
+            checked="checked"
+        /> 异常
+    </td>
 </tr>
 
 <tr>
     <td>空调运行情况</td>
-    <td><input type="radio" name="room1_conditioner" value="0"> 正常 <input type="radio" name="room1_conditioner" value="1"> 异常 </td>
-    <td><input type="radio" name="room2_conditioner" value="0"> 正常 <input type="radio" name="room2_conditioner" value="1"> 异常 </td>
+    <td>
+        <input type="radio" name="room1_conditioner" value="0"
+        $if int(sku.get('room1_conditioner','-1'))==0:
+            checked="checked"
+        /> 正常
+        <input type="radio" name="room1_conditioner" value="1"
+        $if int(sku.get('room1_conditioner','-1'))==1:
+            checked="checked"
+        /> 异常
+    </td>
+    <td>
+        <input type="radio" name="room2_conditioner" value="0"
+        $if int(sku.get('room2_conditioner','-1'))==0:
+            checked="checked"
+        /> 正常
+        <input type="radio" name="room2_conditioner" value="1"
+        $if int(sku.get('room2_conditioner','-1'))==1:
+            checked="checked"
+        /> 异常
+    </td>
 </tr>
 
 <tr>
     <td rowspan="2">空调温湿度记录</td>
-    <td><input type="text" name="room1_temp1" value=""> / <input type="text" name="room1_humi1" value=""></td>
-    <td rowspan="2"><input type="text" name="room2_temp" value=""> / <input type="text" name="room2_humi" value=""></td>
+    <td>
+        <input type="text" name="room1_temp1" value="$sku.get('room1_temp_humi1', {}).get('temp','')" size="5"/>
+        / 
+        <input type="text" name="room1_humi1" value="$sku.get('room1_temp_humi1', {}).get('humi','')" size="5"/>
+    </td>
+
+    <td rowspan="2">
+        <input type="text" name="room2_temp" value="$sku.get('room2_temp_humi', {}).get('temp','')" size="5"/>
+        / 
+        <input type="text" name="room2_humi" value="$sku.get('room2_temp_humi', {}).get('humi','')" size="5"/>
+    </td>
 </tr>
 
 <tr>
-    <td><input type="text" name="room1_temp2" value=""> / <input type="text" name="room1_humi2" value=""></td>
+    <td>
+        <input type="text" name="room1_temp2" value="$sku.get('room1_temp_humi2', {}).get('temp','')" size="5"/>
+        / 
+        <input type="text" name="room1_humi2" value="$sku.get('room1_temp_humi2', {}).get('humi','')" size="5"/>
+    </td>
 </tr>
 
 
@@ -86,9 +163,16 @@ $else:
 <tr>
     <td>有无重大突发事件</td>
     <td colspan="2">
-        <input type="radio" name="system_big_issue" value="0"> 无 
-        <input type="radio" name="system_big_issue" value="1"> 有（请填写下列项目） 
+        <input type="radio" name="system_big_issue" value="0"
+        $if int(sku.get('system_big_issue','-1'))==0:
+            checked="checked"
+        /> 无
+        <input type="radio" name="system_big_issue" value="1"
+        $if int(sku.get('system_big_issue','-1'))==1:
+            checked="checked"
+        /> 有（请填写下列项目）
     </td>
+
 </tr>
 
 <tr>
@@ -108,7 +192,7 @@ $else:
 <tr>
     <td>值班工作记录</td>
     <td colspan="2">
-        <textarea rows="5" cols="80" name="duty_log">$sku.get('duty_log', '')</textarea>    
+        <textarea rows="8" cols="80" name="duty_log">$sku.get('duty_log', '')</textarea>    
     </td>
 </tr>
 
@@ -117,16 +201,28 @@ $else:
 <tr>
     <td>休息室钥匙交接情况</td>
     <td colspan="2">
-        <input type="radio" name="status_key" value="0"> 已交接
-        <input type="radio" name="status_key" value="1"> 未交接
+        <input type="radio" name="status_key" value="0"
+        $if int(sku.get('status_key','0'))==0:
+            checked="checked"
+        /> 未交接
+        <input type="radio" name="status_key" value="1"
+        $if int(sku.get('status_key','0'))==1:
+            checked="checked"
+        /> 已交接
     </td>
 </tr>
 
 <tr>
     <td>值班手机交接情况</td>
     <td colspan="2">
-        <input type="radio" name="status_phone" value="0"> 已交接
-        <input type="radio" name="status_phone" value="1"> 未交接
+        <input type="radio" name="status_phone" value="0"
+        $if int(sku.get('status_phone','0'))==0:
+            checked="checked"
+        /> 未交接
+        <input type="radio" name="status_phone" value="1"
+        $if int(sku.get('status_phone','0'))==1:
+            checked="checked"
+        /> 已交接
     </td>
 </tr>
 
@@ -137,32 +233,6 @@ $else:
     </td>
 </tr>
 
-
-<tr><td>回复类型</td><td>
-    <input type="radio" name="reply_type" value="1"
-    $if int(sku.get('reply_type','0'))==1:
-        checked="checked"
-    /> 病种链接
-    <input type="radio" name="reply_type" value="0"
-    $if int(sku.get('reply_type','0'))==0:
-        checked="checked"
-    /> 文本信息
-    </td><td></td></tr>
-
-<tr><td>回复内容<br/>（病种名称 或 页面编码）</td><td>
-    <textarea rows="5" cols="40" name="reply">$sku.get('reply', '')</textarea>
-    </td><td>病种名称必须与病种文件夹名一致；<br/> 页面编码支持大小写</td></tr>
-
-<tr><td>状态</td><td>
-    <input type="radio" name="available" value="1"
-    $if int(sku.get('available','0'))==1:
-        checked="checked"
-    /> 使用
-    <input type="radio" name="available" value="0"
-    $if int(sku.get('available','0'))==0:
-        checked="checked"
-    /> 停用
-    </td><td></td></tr>
 
 </tbody></table>
 

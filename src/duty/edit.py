@@ -38,15 +38,15 @@ class handler:
         if not helper.logged(helper.PRIV_USER, 'DATA_MODIFY'):
             raise web.seeother('/')
         render = helper.create_render()
-        user_data=web.input(duty_id='', rule_name='')
+        user_data=web.input(duty_id='', duty_name='', duty_date='')
 
-        rule_name = user_data.rule_name.strip()
-        if rule_name=='':
-            return render.info('规则名不能为空！')  
+        duty_date = user_data.duty_date.strip()
+        if duty_date=='':
+            return render.info('日期不能为空！')  
 
         # 排除规则同名
         find_condition = {
-            'rule_name'  : rule_name,
+            'duty_date'  : duty_date,
         }
 
         if user_data['duty_id']=='n/a': # 新建
@@ -57,28 +57,48 @@ class handler:
             message = '修改'
             find_condition['_id'] = { '$ne' : duty_id}  # 排除自己
 
-        r1 = db.bayes.find_one(find_condition)
+        r1 = db.duty.find_one(find_condition)
         if r1 is not None:
-            return render.info('规则名已存在，不能重复！')  
-
+            return render.info('值班记录已存在，日期不能重复！')  
 
         try:
             update_set={
-                'rule_name'  : rule_name,
-                'key_word'   : user_data['key_word'], 
-                'reply'      : user_data['reply'],
-                'reply_type' : int(user_data['reply_type']),
-                'available'  : int(user_data['available']),
-                'last_tick'  : int(time.time()),  # 更新时间戳
+                'duty_date'         : duty_date,
+                'duty_name'         : user_data['duty_name'],
+                'room1_device'      : int(user_data.get('room1_device',-1)), 
+                'room2_device'      : int(user_data.get('room1_device',-1)), 
+                'room1_ups'         : int(user_data.get('room1_ups',-1)), 
+                'room2_ups'         : int(user_data.get('room2_ups',-1)), 
+                'room1_conditioner' : int(user_data.get('room1_conditioner',-1)), 
+                'room2_conditioner' : int(user_data.get('room2_conditioner',-1)), 
+                'room1_temp_humi1'  : { 'temp' : user_data.get('room1_temp1',''), 'humi' : user_data.get('room1_humi1','')}, 
+                'room1_temp_humi2'  : { 'temp' : user_data.get('room1_temp2',''), 'humi' : user_data.get('room1_humi2','')}, 
+                'room2_temp_humi'   : { 'temp' : user_data.get('room2_temp',''), 'humi' : user_data.get('room2_humi','')}, 
+                'device_issue'      : user_data['device_issue'],
+                'device_solution'   : user_data['device_solution'],
+                
+                'system_big_issue'  : int(user_data.get('system_big_issue',-1)), 
+                'system_issue'      : user_data['system_issue'],
+                'system_solution'   : user_data['system_solution'],
+
+                'duty_log'          : user_data['duty_log'],
+
+                'status_key'        : int(user_data.get('status_key',0)), 
+                'status_phone'      : int(user_data.get('status_phone',0)), 
+
+                'status_duty'       : 'SAVED',
+                'save_t'            : helper.time_str(),
+
+                'last_tick'         : int(time.time()),  # 更新时间戳
             }
         except ValueError:
             return render.info('请在相应字段输入数字！')
 
         if duty_id is None:
             update_set['history'] = [(helper.time_str(), helper.get_session_uname(), message)]
-            r2 = db.bayes.insert_one(update_set)
+            r2 = db.duty.insert_one(update_set)
         else:
-            db.bayes.update_one({'_id':duty_id}, {
+            db.duty.update_one({'_id':duty_id}, {
                 '$set'  : update_set,
                 '$push' : {
                     'history' : (helper.time_str(), helper.get_session_uname(), message), 
@@ -86,8 +106,4 @@ class handler:
             })
 
         # 重新计算规则
-        from libs import bayes_helper
-        if bayes_helper.trainToDB() is None:
-            return render.info('规则计算出错！', '/plat/bayes_edit?duty_id='+user_data['duty_id'])            
-        else:
-            return render.info('成功保存！', '/plat/bayes')
+        return render.info('成功保存！', '/duty/list')
