@@ -1,4 +1,4 @@
-$def with (name, str1, sku)
+$def with (name, str1, sku, user_list)
 
 $var title: 值班记录
 $var css: /static/css/jquery.datetimepicker.css
@@ -6,6 +6,7 @@ $var name: $'|'.join(str1) $name
 $var js: /static/js/jquery.datetimepicker.js
 $var load: first_do()
 $var menu: #duty1
+
 
 <script type="text/javascript">
 function first_do(){
@@ -24,6 +25,7 @@ $else:
 
 <form name="new_sku" id="new_sku" method="post" action="/duty/edit">
 <input type="hidden" name="duty_id" value="$sku['duty_id']"/>
+<input type="hidden" name="duty_uid" value="$sku['duty_uid']"/>
 
 <table class="props_tb">
 <thead>
@@ -42,7 +44,7 @@ $else:
     </td></tr>
         
 <tr><td>值班人</td><td colspan="2">
-    <input type="text" name="duty_name" id="duty_name" value="$sku.get('duty_name', '')"/>
+    $user_list[sku['duty_uid']]
     </td></tr>
 
 <tr><td colspan="3"><h1>一、机房运行情况</h1></td></tr>
@@ -233,15 +235,30 @@ $else:
 <tr>
     <td>交接人</td>
     <td colspan="2">
+        <select name="next_uid">
+            <option value=''>--请选择--</option>
+            $for u in user_list.keys():
+                $if u==sku['duty_uid']:
+                    $continue
+                <option value="$u"
+                    $if sku.get('next_uid')==u:
+                        selected="selected"
+                >$user_list[u]</option>
+        </select>
     </td>
 </tr>
 
 
 </tbody></table>
 
-<p><input type="submit" name="submit" id="submit" value="保存"/>
-    <input type="button" name="remove" id="remove_button" value="删除" />
-<input type="button" name="cancel" value="返回" onclick="history.go(-1);" /><p>
+<p>
+    $if sku['status_duty']=='SAVED':
+        <input type="submit" name="submit" id="submit" value="保存"/>
+        $if sku['duty_id']!='n/a':
+            <input type="button" name="close" id="close_button" value="提交" />
+            <input type="button" name="remove" id="remove_button" value="删除" />
+    <input type="button" name="cancel" value="返回" onclick="history.go(-1);" />
+<p>
 </form>
 
 
@@ -259,9 +276,18 @@ $else:
 $$(function(){
 
     $$('#remove_button').click(function(){
-        alertify.confirm("删除规则", "确定要删除此规则吗？",
+        alertify.confirm("删除值班记录", "确定要删除此条记录吗？",
             function(){
-                window.location = "/plat/bayes_remove?duty_id=$sku['duty_id']";
+                window.location = "/duty/remove?duty_id=$sku['duty_id']";
+            },
+            function(){ }
+        );         
+    });
+
+    $$('#close_button').click(function(){
+        alertify.confirm("提交值班记录", "提交后将不能修改。确定提交吗？",
+            function(){
+                window.location = "/duty/close?duty_id=$sku['duty_id']";
             },
             function(){ }
         );         

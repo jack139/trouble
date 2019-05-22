@@ -1,0 +1,266 @@
+$def with (name, str1, sku, user_list)
+
+$var title: 值班记录
+$var css: /static/css/jquery.datetimepicker.css
+$var name: $'|'.join(str1) $name
+$var js: /static/js/jquery.datetimepicker.js
+$var load: first_do()
+$var menu: #duty1
+
+
+<script type="text/javascript">
+function first_do(){
+    $$('#duty_date').datetimepicker({
+        format     : 'Y-m-d', 
+        timepicker : false,
+        maxDate    : '+1970-01-01',
+    });
+}
+</script>
+
+<div class="caption"><h2>修改值班记录</h2></div>
+
+<form name="new_sku" id="new_sku" method="post" action="/duty/finish">
+<input type="hidden" name="duty_id" value="$sku['duty_id']"/>
+
+
+<table class="props_tb">
+<thead>
+    <tr class="even">
+        <th width="20%"> </th>
+        <th width="40%"> </th>
+        <th width="40%"> </th>
+    </tr>
+</thead>
+<tbody>
+<tr><td>值班日期</td><td colspan="2">
+    $sku['duty_date']
+    </td></tr>
+        
+<tr><td>值班人</td><td colspan="2">
+    $user_list[sku['duty_uid']]
+    </td></tr>
+
+<tr><td colspan="3"><h1>一、机房运行情况</h1></td></tr>
+
+<tr><td>检查项</td><td>中心机房（住院2#）</td><td>小机房（医技2#）</td></tr>
+
+<tr>
+    <td>设备（服务器、路由器、交换机）运行情况</td>
+    <td>
+        $if int(sku.get('room1_device','-1'))==0:
+            正常
+        $elif int(sku.get('room1_device','-1'))==1:
+            异常
+        $else:
+            未填写
+    </td>
+    <td>
+        $if int(sku.get('room2_device','-1'))==0:
+            正常
+        $elif int(sku.get('room2_device','-1'))==1:
+            异常
+        $else:
+            未填写
+    </td>
+</tr>
+
+<tr>
+    <td>UPS运行情况</td>
+    <td>
+        $if int(sku.get('room1_ups','-1'))==0:
+            正常
+        $elif int(sku.get('room1_ups','-1'))==1:
+            异常
+        $else:
+            未填写     
+    </td>
+    <td>
+        $if int(sku.get('room2_ups','-1'))==0:
+            正常
+        $elif int(sku.get('room2_ups','-1'))==1:
+            异常
+        $else:
+            未填写
+    </td>
+</tr>
+
+<tr>
+    <td>空调运行情况</td>
+    <td>
+        $if int(sku.get('room1_conditioner','-1'))==0:
+            正常
+        $elif int(sku.get('room1_conditioner','-1'))==1:
+            异常
+        $else:
+            未填写
+
+    </td>
+    <td>
+        $if int(sku.get('room2_conditioner','-1'))==0:
+            正常
+        $elif int(sku.get('room2_conditioner','-1'))==1:
+            异常
+        $else:
+            未填写
+    </td>
+</tr>
+
+
+<tr>
+    <td rowspan="2">空调温湿度记录</td>
+    <td>
+        $sku.get('room1_temp_humi1', {}).get('temp','')
+        / 
+        $sku.get('room1_temp_humi1', {}).get('humi','')
+    </td>
+
+    <td rowspan="2">
+        $sku.get('room2_temp_humi', {}).get('temp','')
+        / 
+        $sku.get('room2_temp_humi', {}).get('humi','')
+    </td>
+</tr>
+
+<tr>
+    <td>
+        $sku.get('room1_temp_humi2', {}).get('temp','')
+        / 
+        $sku.get('room1_temp_humi2', {}).get('humi','')
+    </td>
+</tr>
+
+
+<tr><td colspan="3"><h3>值班期间设备（服务器、路由器、交换机、UPS、空调等）出现异常情况请填写下表</h3></td></tr>
+
+<tr>
+    <td>异常情况描述</td>
+    <td colspan="2">
+        <textarea rows="5" cols="80" name="device_issue" readonly="readonly">$sku.get('device_issue', '')</textarea>    
+    </td>
+</tr>
+
+<tr>
+    <td>解决办法</td>
+    <td colspan="2">
+        <textarea rows="5" cols="80" name="device_solution" readonly="readonly">$sku.get('device_solution', '')</textarea>    
+    </td>
+</tr>
+
+<tr><td colspan="3"><h1>二、值班期间系统运维情况</h1></td></tr>
+
+<tr>
+    <td>有无重大突发事件</td>
+    <td colspan="2">
+        $if int(sku.get('system_big_issue','-1'))==0:
+            无
+        $elif int(sku.get('system_big_issue','-1'))==1:
+            有（请填写下列项目）
+        $else:
+            未填写
+    </td>
+
+</tr>
+
+<tr>
+    <td>事件描述</td>
+    <td colspan="2">
+        <textarea rows="5" cols="80" name="system_issue" readonly="readonly">$sku.get('system_issue', '')</textarea>    
+    </td>
+</tr>
+
+<tr>
+    <td>解决办法</td>
+    <td colspan="2">
+        <textarea rows="5" cols="80" name="system_solution" readonly="readonly">$sku.get('system_solution', '')</textarea>    
+    </td>
+</tr>
+
+<tr>
+    <td>值班工作记录</td>
+    <td colspan="2">
+        <textarea rows="8" cols="80" name="duty_log" readonly="readonly">$sku.get('duty_log', '')</textarea>    
+    </td>
+</tr>
+
+<tr><td colspan="3"><h1>三、值班交班情况</h1></td></tr>
+
+$if sku['status_duty']=='CLOSED' and sku.get('next_uid')==name:
+    <tr>
+        <td>休息室钥匙交接情况</td>
+        <td colspan="2">
+            <input type="radio" name="status_key" value="0"
+            $if int(sku.get('status_key','0'))==0:
+                checked="checked"
+            /> 未交接
+            <input type="radio" name="status_key" value="1"
+            $if int(sku.get('status_key','0'))==1:
+                checked="checked"
+            /> 已交接
+        </td>
+    </tr>
+
+    <tr>
+        <td>值班手机交接情况</td>
+        <td colspan="2">
+            <input type="radio" name="status_phone" value="0"
+            $if int(sku.get('status_phone','0'))==0:
+                checked="checked"
+            /> 未交接
+            <input type="radio" name="status_phone" value="1"
+            $if int(sku.get('status_phone','0'))==1:
+                checked="checked"
+            /> 已交接
+        </td>
+    </tr>
+
+$else:
+    <tr>
+        <td>休息室钥匙交接情况</td>
+        <td colspan="2">
+            $if int(sku.get('status_key','0'))==0:
+                未交接
+            $if int(sku.get('status_key','0'))==1:
+                已交接
+        </td>
+    </tr>
+
+    <tr>
+        <td>值班手机交接情况</td>
+        <td colspan="2">
+            $if int(sku.get('status_phone','0'))==0:
+                未交接
+            $if int(sku.get('status_phone','0'))==1:
+                已交接
+        </td>
+    </tr>
+
+
+<tr>
+    <td>交接人</td>
+    <td colspan="2">
+        $user_list[sku['duty_uid']]
+    </td>
+</tr>
+
+
+</tbody></table>
+<p>
+    $if sku['status_duty']=='CLOSED' and sku.get('next_uid')==name:
+        <input type="submit" name="submit" id="submit" value="交接"/>
+
+    <input type="button" name="cancel" value="返回" onclick="history.go(-1);" />
+<p>
+</form>
+
+
+<div class="article_box">
+    <div>操作日志：</div>
+    <textarea rows="8" cols="80" id="history">
+    $for h in sku.get('history',[]):
+          $h[0]，用户：$h[1]，操作：$h[2]；
+    </textarea>
+</div>
+
+<br/>
+

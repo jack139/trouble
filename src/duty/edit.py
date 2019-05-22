@@ -22,27 +22,46 @@ class handler:
         render = helper.create_render()
         user_data = web.input(duty_id='')
 
-        duty_data = { 'duty_id' : 'n/a' }
+        # 用户列表
+        user_list = {}
+        db_user=db.user.find({})
+        for u in db_user:
+            if u['login']==0:
+                continue
+            if 'ONDUTY' in helper.get_privilege_name(u['privilege'], u['menu_level']):
+                user_list[u['uname']] = u['full_name']
 
-        if user_data.duty_id != '': 
+        # 准备数据
+        duty_data = { 'duty_id' : 'n/a', 'status_duty' : 'SAVED' }
+
+        if user_data.duty_id != '': # 现有记录
             db_obj=db.duty.find_one({'_id':ObjectId(user_data.duty_id)})
             if db_obj!=None:
                 # 已存在的obj
                 duty_data = db_obj
                 duty_data['duty_id']=duty_data['_id']
+        else: # 新记录
+            duty_data['duty_uid'] = helper.get_session_uname()
+            duty_data['duty_name'] = user_list[duty_data['duty_uid']]
 
-        return render.duty_edit(helper.get_session_uname(), helper.get_privilege_name(), duty_data )
+        if duty_data['duty_uid']==helper.get_session_uname() and duty_data['status_duty']=='SAVED':
+            return render.duty_edit(helper.get_session_uname(), helper.get_privilege_name(), duty_data, user_list)
+        else:
+            return render.duty_detail(helper.get_session_uname(), helper.get_privilege_name(), duty_data, user_list)
 
 
     def POST(self):
         if not helper.logged(helper.PRIV_USER, 'ONDUTY'):
             raise web.seeother('/')
         render = helper.create_render()
-        user_data=web.input(duty_id='', duty_name='', duty_date='')
+        user_data=web.input(duty_id='', duty_uid='', duty_date='', next_uid='')
 
         duty_date = user_data.duty_date.strip()
         if duty_date=='':
             return render.info('日期不能为空！')  
+
+        if user_data.next_uid=='':
+            return render.info('交接人不能为空！')  
 
         # 排除规则同名
         find_condition = {
@@ -64,27 +83,29 @@ class handler:
         try:
             update_set={
                 'duty_date'         : duty_date,
-                'duty_name'         : user_data['duty_name'],
+                'duty_uid'          : user_data['duty_uid'],
                 'room1_device'      : int(user_data.get('room1_device',-1)), 
                 'room2_device'      : int(user_data.get('room2_device',-1)), 
                 'room1_ups'         : int(user_data.get('room1_ups',-1)), 
                 'room2_ups'         : int(user_data.get('room2_ups',-1)), 
                 'room1_conditioner' : int(user_data.get('room1_conditioner',-1)), 
                 'room2_conditioner' : int(user_data.get('room2_conditioner',-1)), 
-                'room1_temp_humi1'  : { 'temp' : user_data.get('room1_temp1',''), 'humi' : user_data.get('room1_humi1','')}, 
-                'room1_temp_humi2'  : { 'temp' : user_data.get('room1_temp2',''), 'humi' : user_data.get('room1_humi2','')}, 
-                'room2_temp_humi'   : { 'temp' : user_data.get('room2_temp',''), 'humi' : user_data.get('room2_humi','')}, 
-                'device_issue'      : user_data['device_issue'],
-                'device_solution'   : user_data['device_solution'],
+                'room1_temp_humi1'  : { 'temp' : user_data.get('room1_temp1','').strip(), 'humi' : user_data.get('room1_humi1','').strip()}, 
+                'room1_temp_humi2'  : { 'temp' : user_data.get('room1_temp2','').strip(), 'humi' : user_data.get('room1_humi2','').strip()}, 
+                'room2_temp_humi'   : { 'temp' : user_data.get('room2_temp','').strip(), 'humi' : user_data.get('room2_humi','').strip()}, 
+                'device_issue'      : user_data['device_issue'].strip(),
+                'device_solution'   : user_data['device_solution'].strip(),
                 
                 'system_big_issue'  : int(user_data.get('system_big_issue',-1)), 
-                'system_issue'      : user_data['system_issue'],
-                'system_solution'   : user_data['system_solution'],
+                'system_issue'      : user_data['system_issue'].strip(),
+                'system_solution'   : user_data['system_solution'].strip(),
 
-                'duty_log'          : user_data['duty_log'],
+                'duty_log'          : user_data['duty_log'].strip(),
 
                 'status_key'        : int(user_data.get('status_key',0)), 
                 'status_phone'      : int(user_data.get('status_phone',0)), 
+
+                'next_uid'          : user_data['next_uid'],
 
                 'status_duty'       : 'SAVED',
                 'save_t'            : helper.time_str(),

@@ -1,4 +1,4 @@
-$def with (name, str1, pages, list, current_page)
+$def with (name, str1, pages, list, current_page, user_list)
 
 $var title: 值班记录
 $var css:
@@ -31,21 +31,25 @@ $$(function(){
 <table class="props_tb">
 <thead>
     <tr class="even">
-        <th>值班日期</th>
+        <th width="15%">值班日期</th>
         <th>值班人</th>
-        <th>重大事件</th>
         <th>交接人</th>
         <th>交接状态</th>
-        <th width="180px">交接时间</th>
+        <th width="15%">交接时间</th>
     </tr>
 </thead>
 <tbody>
 $for u in list:
     <tr>
         <td><a href="/duty/edit?duty_id=$u['_id']">$u.get('duty_date', '')</a></td>
-        <td>$u.get('duty_name', '')</td>
-        <td>$u.get('system_big_issue', 0)</td>
-        <td>$u.get('next_name', 0)</td>
+        <td 
+        $if u['duty_uid']==name:
+            style="color:red;" 
+        >$user_list[u['duty_uid']]</td>
+        <td
+        $if u['next_uid']==name:
+            style="color:red;" 
+        >$user_list[u['next_uid']]</td>
         <td>$u.get('status_duty', 0)</td>
         <td>$u.get('confirm_t', ' ')</td>
     </tr>

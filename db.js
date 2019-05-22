@@ -13,7 +13,6 @@ duty 值班记录
 {
 	duty_date	值班日期
 	duty_uid		值班人uid
-	duty_name		值班人姓名
 	room1_device	大机房设备状况 	0 正常 1 异常
 	room2_device	小机房设备状况
 	room1_ups		大机房ups
@@ -35,13 +34,11 @@ duty 值班记录
 	status_key		钥匙交接情况 1 已交接 0 未交接
 	status_phone	手机交接情况 1 已交接 0 未交接
 	next_uid		交接人uid
-	next_name		交接人姓名
 	status_duty		值班记录状态： SAVED 未提交，未交接 CLOSED 已提交，未交接确认 FINISHED 已提交，已交接确认
 
 	save_t		保存时间
 	submit_t	提交时间
 	confirm_t	交接时间
-
 }
 
 ticket 问题记录
@@ -75,4 +72,6 @@ db.app_user.createIndex({reg_time:1},{ background: true })
 
 db.wx_user.createIndex({wx_user:1},{ background: true })
 db.wx_user.createIndex({last_tick:1},{ background: true })
+
+db.duty.createIndex({duty_date:1},{ background: true })
 
