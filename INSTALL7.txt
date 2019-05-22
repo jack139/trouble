@@ -23,19 +23,16 @@ yum install epel-release
 yum install nginx
 
 easy_install pip
+pip install --upgrade pip
+
 pip install uwsgi
 
-easy_install web.py
-easy_install flup
-easy_install pymongo
-easy_install urllib3
-easy_install rsa
-easy_install six
-easy_install python-hessian
-easy_install captcha
-easy_install redis
-easy_install hiredis
-easy_install stomp.py
+pip install web.py
+pip install flup
+pip install pymongo
+pip install urllib3
+pip install captcha
+pip install numpy
 
 
 
@@ -61,6 +58,8 @@ crontab -e 添加任务
 /usr/local/nginx/html/fair/config/setting.py
 
 
+Nginx关闭自动压缩日志
+rm /etc/logrotate.d/nginx
 
 
 生产mongodb 配置
@@ -76,13 +75,13 @@ use admin
 
 db.createUser( {
     user: "siteUserAdmin",
-    pwd: "Zjjl_3026",
+    pwd: "F%dU+_3026",
     roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
   });
 
 db.createUser( {
     user: "siteRootAdmin",
-    pwd: "Zjjl_3026",
+    pwd: "kLd&$t_3026",
     roles: [ { role: "root", db: "admin" } ]
   });
 
@@ -108,10 +107,11 @@ db.createUser(
 use admin
 db.auth("siteRootAdmin", "kLd&$t_3026");
 
-use xah_db
+use trouble_db
 db.createUser({user:"ipcam",pwd:"ipcam",roles:["dbAdmin","readWrite"]})
 db.auth("ipcam","ipcam")
 db.user.insert({uname:"admin",login:1,privilege:8,passwd:'ecb918249fb79775ce1b332ddd2a5d624248ce2b',menu_level:''})
 
 
-db.changeUserPassword("ipcam", "zjjL_3026")
+db.changeUserPassword("siteUserAdmin", "F%dU+_3026")
+db.changeUserPassword("siteRootAdmin", "kLd&$t_3026")

@@ -45,7 +45,10 @@ class handler:
             return render.info('有未填数据，请填写后保存，然后再提交！') 
 
         db.duty.update_one({'_id':ObjectId(user_data.duty_id)}, {
-            '$set'  : {'status_duty':'CLOSED'},
+            '$set'  : {
+                'status_duty' : 'CLOSED',
+                'close_t'     : helper.time_str(),
+            },
             '$push' : {
                 'history' : (helper.time_str(), helper.get_session_uname(), '提交'), 
             }  # 纪录操作历史

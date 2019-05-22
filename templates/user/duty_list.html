@@ -50,8 +50,17 @@ $for u in list:
         $if u['next_uid']==name:
             style="color:red;" 
         >$user_list[u['next_uid']]</td>
-        <td>$u.get('status_duty', 0)</td>
-        <td>$u.get('confirm_t', ' ')</td>
+        <td>
+            $if u.get('status_duty', 0)=='SAVED':
+                已保存，未提交
+            $elif u.get('status_duty', 0)=='CLOSED':
+                已提交，未交接
+            $elif u.get('status_duty', 0)=='FINISHED':
+                交接完成
+            $else:
+                未知状态
+        </td>
+        <td>$u.get('finish_t', ' ')</td>
     </tr>
 </tbody>
 </table>

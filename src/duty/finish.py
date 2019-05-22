@@ -41,6 +41,7 @@ class handler:
                     'status_phone' : int(user_data.get('status_phone',0)), 
 
                     'status_duty'  : 'FINISHED',
+                    'finish_t'     : helper.time_str(),
             }
         except ValueError:
             return render.info('请在相应字段输入数字！')
