@@ -31,7 +31,7 @@ class handler:
         if authcode!=param.authcode:
             return json.dumps({'ret' : -9, 'data' : 'auth fail' })
 
-        wsdl_url = 'http://172.27.70.26:8099/uapws/service/otherHrp?wsdl'
+        wsdl_url = 'http://10.81.0.241:8099/uapws/service/otherHrp?wsdl' # 通过网闸
         headers={'Content-Type':'application/soap+xml;charset="UTF-8"'}
         client=Client(wsdl_url,headers=headers,faults=False,timeout=15)
 
