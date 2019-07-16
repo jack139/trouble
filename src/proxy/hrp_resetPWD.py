@@ -22,7 +22,8 @@ class handler:
         web.header('Content-Type', 'application/json')
         param = web.input(authcode='',clerkcode='',oldpwd='',newpwd='')
 
-        print param
+        #print param
+        print param.clerkcode
 
         authcode = generate_sign([param.clerkcode, param.oldpwd, param.newpwd])
 
@@ -41,6 +42,8 @@ class handler:
         result=client.service.resetPWD(requestPara)
 
         result1 = json.loads(result[1])
+
+        print result1
 
         # 返回
         if result1['errcode']=="0":
