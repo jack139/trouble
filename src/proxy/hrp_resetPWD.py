@@ -36,8 +36,12 @@ class handler:
         headers={'Content-Type':'application/soap+xml;charset="UTF-8"'}
         client=Client(wsdl_url,headers=headers,faults=False,timeout=15)
 
-        requestPara = '{"orgcode":"10","clerkcode":"%s","oldpwd":"%s","newpwd":"%s","comfirmpwd":"%s"}' % \
-            (param.clerkcode, param.oldpwd, param.newpwd, param.newpwd)
+        #requestPara = '{"orgcode":"10","clerkcode":"%s","oldpwd":"%s","newpwd":"%s","comfirmpwd":"%s"}' % \
+        #    (param.clerkcode, param.oldpwd, param.newpwd, param.newpwd)
+
+        # 不需要旧密码
+        requestPara = '{"orgcode":"10","clerkcode":"%s","newpwd":"%s","comfirmpwd":"%s"}' % \
+            (param.clerkcode, param.newpwd, param.newpwd)
 
         result=client.service.resetPWD(requestPara)
 
