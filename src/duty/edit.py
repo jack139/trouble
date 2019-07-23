@@ -16,19 +16,25 @@ url = ('/duty/edit')
 class handler:
 
     def GET(self):
-        if not helper.logged(helper.PRIV_USER, 'ONDUTY'):
+        if helper.logged(helper.PRIV_USER, 'ONDUTY'):
+            ROLE = 'ONDUTY'
+        elif helper.logged(helper.PRIV_USER, 'DHCDUTY'):
+            ROLE = 'DHCDUTY'
+        else:
             raise web.seeother('/')
+
+        print 'ROLE:', ROLE
 
         render = helper.create_render()
         user_data = web.input(duty_id='')
 
-        # 用户列表
+        # 用户列表, 及东华用户列表
         user_list = {}
         db_user=db.user.find({})
         for u in db_user:
             if u['login']==0:
                 continue
-            if 'ONDUTY' in helper.get_privilege_name(u['privilege'], u['menu_level']):
+            if ROLE in helper.get_privilege_name(u['privilege'], u['menu_level']):
                 user_list[u['uname']] = u['full_name']
 
         # 准备数据

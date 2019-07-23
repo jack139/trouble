@@ -14,7 +14,7 @@ url = ('/duty/list')
 # - 值班记录列表 －－－－－－－－－－－
 class handler:      
     def GET(self):
-        if not helper.logged(helper.PRIV_USER,'ONDUTY'):
+        if not (helper.logged(helper.PRIV_USER, 'ONDUTY') or helper.logged(helper.PRIV_USER, 'DHCDUTY')):
             raise web.seeother('/')
 
         render = helper.create_render()

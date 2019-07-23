@@ -36,6 +36,8 @@ duty 值班记录
 	next_uid		交接人uid
 	status_duty		值班记录状态： SAVED 未提交，未交接 CLOSED 已提交，未交接确认 FINISHED 已提交，已交接确认
 
+	status_dhc		东华值班记录状态： SAVED 未提交，未交接 CLOSED 已提交，未交接确认 FINISHED 已提交，已交接确认
+
 	save_t		保存时间
 	close_t	    提交时间
 	finish_t	交接时间

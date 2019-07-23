@@ -28,7 +28,12 @@ $var name: $str1 $name
     <input type="checkbox" name="priv" value="ONDUTY"
     $if 'ONDUTY' in level:
         checked="checked"
-    /> 值班记录
+    /> 信息中心值班
+    <input type="checkbox" name="priv" value="DHCDUTY"
+    $if 'DHCDUTY' in level:
+        checked="checked"
+    /> 东华值班
+
     <input type="checkbox" name="priv" value="TICKET_OP"
     $if 'TICKET_OP' in level:
         checked="checked"

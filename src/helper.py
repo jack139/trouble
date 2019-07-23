@@ -53,6 +53,8 @@ MENU_LEVEL = {
     'TICKET_USER' : 1, # 问题提交 
     'REPORT'      : 2, # 报表
     'ONDUTY'      : 3, # 值班记录
+    'DHCDUTY'     : 4, # 东华值班记录
+    'DIRCTOR'     : 5, # 主任审核
 }
 
 user_level = {
