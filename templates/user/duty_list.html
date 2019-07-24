@@ -32,8 +32,10 @@ $$(function(){
 <thead>
     <tr class="even">
         <th width="15%">值班日期</th>
-        <th>值班人</th>
-        <th>交接人</th>
+        <th>信息中心值班</th>
+        <th>东华值班</th>
+        <th>信息中心交接人</th>
+        <th>东华交接人</th>
         <th>交接状态</th>
         <th width="15%">交接时间</th>
     </tr>
@@ -46,10 +48,21 @@ $for u in list:
         $if u['duty_uid']==name:
             style="color:red;" 
         >$user_list[u['duty_uid']]</td>
+        <td 
+        $if u['dhc_duty_uid']==name:
+            style="color:red;" 
+        >$user_list[u['dhc_duty_uid']]</td>
         <td
         $if u['next_uid']==name:
             style="color:red;" 
         >$user_list[u['next_uid']]</td>
+        <td
+        $if u.get('dhc_next_uid')==name:
+            style="color:red;" 
+        >
+        $if u.get('dhc_next_uid') is not None:
+            $user_list[u['dhc_next_uid']]
+        </td>
         <td>
             $if u.get('status_duty', 0)=='SAVED':
                 已保存，未提交
@@ -59,8 +72,18 @@ $for u in list:
                 交接完成
             $else:
                 未知状态
+            <br/>
+            $if u.get('dhc_status_duty', 0)=='SAVED':
+                已保存，未提交
+            $elif u.get('dhc_status_duty', 0)=='CLOSED':
+                已提交，未交接
+            $elif u.get('dhc_status_duty', 0)=='FINISHED':
+                交接完成
+            $else:
+                未知状态
+
         </td>
-        <td>$u.get('finish_t', ' ')</td>
+        <td>$u.get('finish_t', '-')<br/>$u.get('dhc_finish_t', '-')</td>
     </tr>
 </tbody>
 </table>

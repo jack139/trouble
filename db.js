@@ -11,6 +11,7 @@ app_user    前端用户（微信／app）
 
 duty 值班记录
 {
+	/* 信息中心值班记录 项目 */
 	duty_date	值班日期
 	duty_uid		值班人uid
 	room1_device	大机房设备状况 	0 正常 1 异常
@@ -34,13 +35,22 @@ duty 值班记录
 	status_key		钥匙交接情况 1 已交接 0 未交接
 	status_phone	手机交接情况 1 已交接 0 未交接
 	next_uid		交接人uid
-	status_duty		值班记录状态： SAVED 未提交，未交接 CLOSED 已提交，未交接确认 FINISHED 已提交，已交接确认
-
-	status_dhc		东华值班记录状态： SAVED 未提交，未交接 CLOSED 已提交，未交接确认 FINISHED 已提交，已交接确认
+	status_duty		值班记录状态： SAVED 未提交，未交接 CLOSED 已提交，未交接确认 FINISHED 已提交，已交接确认， APPROVED 已审核
 
 	save_t		保存时间
 	close_t	    提交时间
 	finish_t	交接时间
+
+	/* 东华值班记录 项目 */
+	dhc_duty_uid		值班人uid
+	dhc_duty_log		值班工作记录
+	dhc_next_uid		交接人uid
+	dhc_status_duty		值班记录状态： SAVED 未提交，未交接 CLOSED 已提交，未交接确认 FINISHED 已提交，已交接确认， APPROVED 已审核
+
+	dhc_save_t		保存时间
+	dhc_close_t	    提交时间
+	dhc_finish_t	交接时间
+
 }
 
 ticket 问题记录

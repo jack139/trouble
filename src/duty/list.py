@@ -29,7 +29,8 @@ class handler:
         for u in db_user:
             if u['login']==0:
                 continue
-            if 'ONDUTY' in helper.get_privilege_name(u['privilege'], u['menu_level']):
+            pri_list = helper.get_privilege_name(u['privilege'], u['menu_level'])
+            if ('ONDUTY' in pri_list) or ('DHCDUTY' in pri_list):
                 user_list[u['uname']] = u['full_name']
 
         conditions ={}
