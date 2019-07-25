@@ -24,7 +24,6 @@ $else:
 
 <form name="new_sku" id="new_sku" method="post" action="/duty/edit">
 <input type="hidden" name="duty_id" value="$sku['duty_id']"/>
-<input type="hidden" name="duty_uid" value="$sku['duty_uid']"/>
 
 <table class="props_tb">
 <thead>
@@ -44,11 +43,13 @@ $else:
 
 
 $if 'ONDUTY' in str1:
+    <input type="hidden" name="duty_uid" value="$sku['duty_uid']"/>
+
     <tr><td>值班人</td><td colspan="2">
         $user_list[sku['duty_uid']]
         </td></tr>
 
-    <tr>
+    <!--tr>
         <td>东华值班人</td>
         <td colspan="2">
             <select name="dhc_duty_uid">
@@ -60,7 +61,7 @@ $if 'ONDUTY' in str1:
                     >$dhc_user_list[u]</option>
             </select>
         </td>
-    </tr>
+    </tr-->
 
     <tr><td colspan="3"><h1>一、机房运行情况</h1></td></tr>
 
@@ -303,14 +304,14 @@ $else:
 
 <p>
     $if 'ONDUTY' in str1:
-        $if sku['status_duty']=='SAVED':
+        $if sku.get('status_duty') in ['SAVED', None]:
             <input type="submit" name="submit" id="submit" value="保存"/>
             $if sku['duty_id']!='n/a':
                 <input type="button" name="close" id="close_button" value="提交" />
                 <input type="button" name="remove" id="remove_button" value="删除" />
         <input type="button" name="cancel" value="返回" onclick="history.go(-1);" />
     $else:
-        $if sku['dhc_status_duty']=='SAVED':
+        $if sku.get('dhc_status_duty') in ['SAVED', None]:
             <input type="submit" name="submit" id="submit" value="保存"/>
             $if sku['duty_id']!='n/a':
                 <input type="button" name="close" id="close_button" value="提交" />

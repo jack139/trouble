@@ -45,7 +45,7 @@ class handler:
             users.append(x['uname'])
 
         # 分页获取数据
-        db_sku = db.duty.find({ 'duty_uid' : {'$in' : users} },
+        db_sku = db.duty.find({ '$or' : [ {'duty_uid' : {'$in' : users}}, {'dhc_duty_uid' : {'$in' : users}} ]},
             sort=[('duty_date', -1)],
             limit=PAGE_SIZE,
             skip=int(user_data['page'])*PAGE_SIZE

@@ -45,17 +45,26 @@ $for u in list:
     <tr>
         <td><a href="/duty/edit?duty_id=$u['_id']">$u.get('duty_date', '')</a></td>
         <td 
-        $if u['duty_uid']==name:
+        $if u.get('duty_uid')==name:
             style="color:red;" 
-        >$user_list[u['duty_uid']]</td>
+        >
+        $if u.get('duty_uid') is not None:
+            $user_list[u['duty_uid']]
+        </td>
         <td 
-        $if u['dhc_duty_uid']==name:
+        $if u.get('dhc_duty_uid')==name:
             style="color:red;" 
-        >$user_list[u['dhc_duty_uid']]</td>
+        >
+        $if u.get('dhc_duty_uid') is not None:
+            $user_list[u['dhc_duty_uid']]
+        </td>
         <td
-        $if u['next_uid']==name:
+        $if u.get('next_uid')==name:
             style="color:red;" 
-        >$user_list[u['next_uid']]</td>
+        >
+        $if u.get('next_uid') is not None:
+            $user_list[u['next_uid']]
+        </td>
         <td
         $if u.get('dhc_next_uid')==name:
             style="color:red;" 

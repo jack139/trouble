@@ -42,7 +42,7 @@ class handler:
                 dhc_user_list[u['uname']] = u['full_name']
 
         # 准备数据
-        duty_data = { 'duty_id' : 'n/a', 'status_duty' : 'SAVED' }
+        duty_data = { 'duty_id' : 'n/a', 'status_duty' : 'SAVED', 'dhc_status_duty' : 'SAVED' }
 
         if user_data.duty_id != '': # 现有记录
             db_obj=db.duty.find_one({'_id':ObjectId(user_data.duty_id)})
@@ -50,14 +50,23 @@ class handler:
                 # 已存在的obj
                 duty_data = db_obj
                 duty_data['duty_id']=duty_data['_id']
+
+                # 对于只保存一半数据的记录处理
+                if ROLE == 'ONDUTY' and not db_obj.has_key('duty_uid'):
+                    duty_data['duty_uid'] = helper.get_session_uname()
+                    duty_data['duty_name'] = user_list[helper.get_session_uname()]
+                elif ROLE == 'DHCDUTY' and not db_obj.has_key('dhc_duty_uid'):
+                    duty_data['dhc_duty_uid'] = helper.get_session_uname()
+                    duty_data['duty_name'] = dhc_user_list[helper.get_session_uname()]
         else: # 新记录
             if ROLE == 'ONDUTY':
                 duty_data['duty_uid'] = helper.get_session_uname()
+                duty_data['duty_name'] = user_list[helper.get_session_uname()]
             else:
                 duty_data['dhc_duty_uid'] = helper.get_session_uname()
-            duty_data['duty_name'] = user_list[helper.get_session_uname()]
+                duty_data['duty_name'] = dhc_user_list[helper.get_session_uname()]
 
-        if ROLE == 'ONDUTY' and duty_data['duty_uid']==helper.get_session_uname() and duty_data['status_duty']=='SAVED':
+        if ROLE == 'ONDUTY' and duty_data.get('duty_uid')==helper.get_session_uname() and (duty_data.get('status_duty') in ['SAVED', None]):
             return render.duty_edit(helper.get_session_uname(), helper.get_privilege_name(), duty_data, user_list, dhc_user_list)
         elif ROLE == 'DHCDUTY' and duty_data.get('dhc_duty_uid')==helper.get_session_uname() and (duty_data.get('dhc_status_duty') in ['SAVED', None]):
             return render.duty_edit(helper.get_session_uname(), helper.get_privilege_name(), duty_data, user_list, dhc_user_list)
@@ -99,8 +108,8 @@ class handler:
 
 
         if ROLE == 'ONDUTY': # 信息中心值班人员处理
-            if user_data.dhc_duty_uid=='':
-                return render.info('东华值班人不能为空！')  
+            #if user_data.dhc_duty_uid=='':
+            #    return render.info('东华值班人不能为空！')  
 
             if user_data.next_uid=='':
                 return render.info('交接人不能为空！')  
@@ -109,7 +118,7 @@ class handler:
                 update_set={
                     'duty_date'         : duty_date,
                     'duty_uid'          : user_data['duty_uid'],
-                    'dhc_duty_uid'      : user_data['dhc_duty_uid'],
+                    #'dhc_duty_uid'      : user_data['dhc_duty_uid'],
                     'room1_device'      : int(user_data.get('room1_device',-1)), 
                     'room2_device'      : int(user_data.get('room2_device',-1)), 
                     'room1_ups'         : int(user_data.get('room1_ups',-1)), 

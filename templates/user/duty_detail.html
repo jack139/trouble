@@ -18,7 +18,7 @@ function first_do(){
 }
 </script>
 
-<div class="caption"><h2>修改值班记录</h2></div>
+<div class="caption"><h2>值班记录</h2></div>
 
 <form name="new_sku" id="new_sku" method="post" action="/duty/finish">
 <input type="hidden" name="duty_id" value="$sku['duty_id']"/>
@@ -37,8 +37,14 @@ function first_do(){
     $sku['duty_date']
     </td></tr>
         
-<tr><td>值班人</td><td colspan="2">
-    $user_list[sku['duty_uid']]
+<tr><td>信息中心值班</td><td colspan="2">
+    $if sku.get('duty_uid') is not None:
+        $user_list[sku['duty_uid']]
+    </td></tr>
+
+<tr><td>东华值班</td><td colspan="2">
+    $if sku.get('dhc_duty_uid') is not None:
+        $dhc_user_list[sku['dhc_duty_uid']]
     </td></tr>
 
 <tr><td colspan="3"><h1>一、机房运行情况</h1></td></tr>
@@ -177,80 +183,109 @@ function first_do(){
 </tr>
 
 <tr>
-    <td>值班工作记录</td>
+    <td>信息中心值班工作记录</td>
     <td colspan="2">
-        <textarea rows="8" cols="80" name="duty_log" readonly="readonly">$sku.get('duty_log', '')</textarea>    
+        <textarea rows="12" cols="80" name="duty_log" readonly="readonly">$sku.get('duty_log', '')</textarea>    
     </td>
 </tr>
 
+
+<tr>
+    <td>东华值班工作记录</td>
+    <td colspan="2">
+        <textarea rows="12" cols="80" name="dhc_duty_log" readonly="readonly">$sku.get('dhc_duty_log', '')</textarea>    
+    </td>
+</tr>
+
+
 <tr><td colspan="3"><h1>三、值班交班情况</h1></td></tr>
 
-$if sku['status_duty']=='CLOSED' and sku.get('next_uid')==name:
-    <tr>
-        <td>休息室钥匙交接情况</td>
-        <td colspan="2">
-            <input type="radio" name="status_key" value="0"
-            $if int(sku.get('status_key','0'))==0:
-                checked="checked"
-            /> 未交接
-            <input type="radio" name="status_key" value="1"
-            $if int(sku.get('status_key','0'))==1:
-                checked="checked"
-            /> 已交接
-        </td>
-    </tr>
+$if 'ONDUTY' in str1:
+    $if sku.get('status_duty')=='CLOSED' and sku.get('next_uid')==name:
+        <tr>
+            <td>休息室钥匙交接情况</td>
+            <td colspan="2">
+                <input type="radio" name="status_key" value="0"
+                $if int(sku.get('status_key','0'))==0:
+                    checked="checked"
+                /> 未交接
+                <input type="radio" name="status_key" value="1"
+                $if int(sku.get('status_key','0'))==1:
+                    checked="checked"
+                /> 已交接
+            </td>
+        </tr>
 
-    <tr>
-        <td>值班手机交接情况</td>
-        <td colspan="2">
-            <input type="radio" name="status_phone" value="0"
-            $if int(sku.get('status_phone','0'))==0:
-                checked="checked"
-            /> 未交接
-            <input type="radio" name="status_phone" value="1"
-            $if int(sku.get('status_phone','0'))==1:
-                checked="checked"
-            /> 已交接
-        </td>
-    </tr>
+        <tr>
+            <td>值班手机交接情况</td>
+            <td colspan="2">
+                <input type="radio" name="status_phone" value="0"
+                $if int(sku.get('status_phone','0'))==0:
+                    checked="checked"
+                /> 未交接
+                <input type="radio" name="status_phone" value="1"
+                $if int(sku.get('status_phone','0'))==1:
+                    checked="checked"
+                /> 已交接
+            </td>
+        </tr>
 
-$else:
-    <tr>
-        <td>休息室钥匙交接情况</td>
-        <td colspan="2">
-            $if int(sku.get('status_key','0'))==0:
-                未交接
-            $if int(sku.get('status_key','0'))==1:
-                已交接
-        </td>
-    </tr>
+    $else:
+        <tr>
+            <td>休息室钥匙交接情况</td>
+            <td colspan="2">
+                $if int(sku.get('status_key','0'))==0:
+                    未交接
+                $if int(sku.get('status_key','0'))==1:
+                    已交接
+            </td>
+        </tr>
 
-    <tr>
-        <td>值班手机交接情况</td>
-        <td colspan="2">
-            $if int(sku.get('status_phone','0'))==0:
-                未交接
-            $if int(sku.get('status_phone','0'))==1:
-                已交接
-        </td>
-    </tr>
+        <tr>
+            <td>值班手机交接情况</td>
+            <td colspan="2">
+                $if int(sku.get('status_phone','0'))==0:
+                    未交接
+                $if int(sku.get('status_phone','0'))==1:
+                    已交接
+            </td>
+        </tr>
 
 
 <tr>
-    <td>交接人</td>
+    <td>信息中心交接人</td>
     <td colspan="2">
-        $user_list[sku['next_uid']]
+        $if sku.get('next_uid') is not None:
+            $user_list[sku['next_uid']]
+    </td>
+</tr>
+
+<tr>
+    <td>东华交接人</td>
+    <td colspan="2">
+        $if sku.get('dhc_next_uid') is not None:
+            $dhc_user_list[sku['dhc_next_uid']]
     </td>
 </tr>
 
 
 </tbody></table>
-<p>
-    $if sku['status_duty']=='CLOSED' and sku.get('next_uid')==name:
-        <input type="submit" name="submit" id="submit" value="交接"/>
 
-    <input type="button" name="cancel" value="返回" onclick="history.go(-1);" />
-<p>
+$if 'ONDUTY' in str1:
+    <p>
+        $if sku['status_duty']=='CLOSED' and sku.get('next_uid')==name:
+            <input type="submit" name="submit" id="submit" value="交接"/>
+
+        <input type="button" name="cancel" value="返回" onclick="history.go(-1);" />
+    <p>
+$elif 'DHCDUTY' in str1:
+    <p>
+        $if sku['dhc_status_duty']=='CLOSED' and sku.get('dhc_next_uid')==name:
+            <input type="submit" name="submit" id="submit" value="交接"/>
+
+        <input type="button" name="cancel" value="返回" onclick="history.go(-1);" />
+    <p>
+
 </form>
 
 
