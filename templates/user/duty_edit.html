@@ -272,8 +272,6 @@ $if 'ONDUTY' in str1:
             <select name="next_uid">
                 <option value=''>--请选择--</option>
                 $for u in user_list.keys():
-                    $if u==sku['duty_uid']:
-                        $continue
                     <option value="$u"
                         $if sku.get('next_uid')==u:
                             selected="selected"
@@ -289,8 +287,6 @@ $else:
             <select name="dhc_next_uid">
                 <option value=''>--请选择--</option>
                 $for u in dhc_user_list.keys():
-                    $if u==sku['dhc_duty_uid']:
-                        $continue
                     <option value="$u"
                         $if sku.get('dhc_next_uid')==u:
                             selected="selected"
