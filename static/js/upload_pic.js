@@ -23,7 +23,7 @@ function doFirst_pic()
         img.text = g_params["origin_name"];
         img.target = "_blank";
         li.id = rand_id;
-        //li.style.cssText = "width: 450px;";
+        li.style.cssText = "text-align: left;";
         but.innerHTML = "删除";
         but.onclick = function(){
             remove_image(rand_id);
@@ -39,7 +39,7 @@ function doFirst_pic()
 
     /* 图片文件上传 */
     r9 = new Resumable({
-        target     : '/job/upload',
+        target     : '/ticket/upload',
         chunkSize  : 1024*512,
         query      : get_params,
         maxFiles   : 1,

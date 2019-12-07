@@ -55,7 +55,19 @@ duty 值班记录
 
 ticket 问题记录
 {
-
+	_id			ticket_id
+	ticket_no	编号
+	title		标题
+	category	问题类型
+	source		问题来源
+	detail		问题描述（图文）
+	status 		问题状态
+	plan_date	计划完成日期
+	open_uid	提交问题人的uid
+	killer_uid	问题处理人uid
+	first_date	首次提交时间
+	last_date	最后处理时间
+	close_date	问题关闭时间
 }
 
 

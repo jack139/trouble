@@ -85,9 +85,9 @@ TICKET_SOURCE = {
 }
 
 TICKET_STATUS = {
-    'WAIT'     : '等待处理',
+    #'WAIT'     : '等待处理',
     'OPEN'     : '处理中',
-    'PREOPEN'  : '等待重新处理',
+    #'PREOPEN'  : '等待重新处理',
     'PRECLOSE' : '等待确认完成',
     'CLOSED'   : '已完成',
 }
