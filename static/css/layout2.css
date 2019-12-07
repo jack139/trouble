@@ -22,7 +22,7 @@ button::-moz-focus-inner{ border:0; padding:0; margin:0; }
 .whole_body{ color:#333; font:14px/24px 'microsoft yahei'; }
 
 .feature dd,
-.download .icon_download{ background:url("/static/image/icon_sprites.png") no-repeat; }
+/*.download .icon_download{ background:url("/static/image/icon_sprites.png") no-repeat; }*/
 
 .wrapper{ width:100%; }
 
