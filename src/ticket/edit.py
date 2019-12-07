@@ -33,23 +33,28 @@ class handler:
 
         # 准备数据
         ticket_data = { 'ticket_id' : 'n/a', 'status' : 'OPEN' }
+        image_list = []
 
         if user_data.ticket_id != '': # 现有记录
             db_obj=db.ticket.find_one({'_id':ObjectId(user_data.ticket_id)})
+
             if db_obj!=None:
                 # 已存在的obj
                 ticket_data = db_obj
                 ticket_data['ticket_id']=ticket_data['_id']
 
+                # 只有提交和处理才能修改
+                if ticket_data['open_uid']!=helper.get_session_uname() and ticket_data['killer_uid']!=helper.get_session_uname():
+                    return render.info('不是提交人或处理人，不能修改！')  
+
+                for x in db_obj.get('images', []):
+                    r2 = db.base_image.find_one({'image':x})
+                    if r2:
+                        image_list.append((x, r2['file']))
+
         # 对于只保存一半数据的记录处理
         ticket_data['open_uid'] = helper.get_session_uname()
         ticket_data['open_name'] = user_list[helper.get_session_uname()]
-
-        image_list = []
-        for x in db_obj.get('images', []):
-            r2 = db.base_image.find_one({'image':x})
-            if r2:
-                image_list.append((x, r2['file']))
 
         return render.ticket_edit(helper.get_session_uname(), helper.get_privilege_name(), 
             ticket_data, user_list, helper.TICKET_TYPE, helper.TICKET_SOURCE, helper.TICKET_STATUS, image_list)
@@ -62,7 +67,7 @@ class handler:
         render = helper.create_render()
         user_data=web.input(ticket_id='', title='', status='')
 
-        print user_data
+        #print user_data
         
         title = user_data.title.strip()
         if title=='':
@@ -83,10 +88,10 @@ class handler:
 
         if user_data['ticket_id']=='n/a': # 新建
             ticket_id = None
-            message = '新建'
+            message = '新建问题'
         else:
             ticket_id = ObjectId(user_data['ticket_id'])
-            message = '修改'
+            message = '修改问题'
 
 
         try:
@@ -97,19 +102,16 @@ class handler:
                 'source'     : int(user_data['source']),
                 'detail'     : user_data['detail'],
                 'plan_date'  : user_data['plan_date'],
-                'open_uid'   : user_data['open_uid'],
                 'killer_uid' : user_data['killer_uid'],
-                'images'      : user_data['image'].split(','), # 上次文件
-                'first_date' : helper.time_str(),
+                'images'      : user_data['image'].split(','), # 上传文件
                 'last_date'  : helper.time_str(),
-                'first_t'    : int(time.time()),
                 'last_tick'  : int(time.time()),  # 更新时间戳
             }
         except ValueError:
             return render.info('请在相应字段输入数字！')
 
 
-        if ticket_id is None:
+        if ticket_id is None: #新建
             # 取得sku计数
             db_pk = db.user.find_one_and_update(
                 {'uname'    : 'settings'},
@@ -117,6 +119,9 @@ class handler:
                 {'pk_count' : 1}
             )
             update_set['ticket_no'] = db_pk['pk_count'] # 新建增加 ticket_no
+            update_set['open_uid'] = helper.get_session_uname()
+            update_set['first_date'] = helper.time_str() 
+            update_set['first_t'] = int(time.time())
             update_set['history'] = [(helper.time_str(), helper.get_session_uname(), message)]
             r2 = db.ticket.insert_one(update_set)
         else:

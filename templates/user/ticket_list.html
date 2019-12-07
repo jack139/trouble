@@ -78,8 +78,8 @@ $$(function(){
 <tbody>
 $for u in list:
   <tr>
-  <td><a href="/ticket/edit?ticket_id=$u['_id']">#$u['ticket_no']</a></td>
-  <td>$u.get('title', '')</td>
+  <td><a href="/ticket/thread?ticket_id=$u['_id']">#$u['ticket_no']</a></td>
+  <td>$u.get('title', '')&nbsp;&nbsp;($len(u.get('follow_list',[])))</td>
   <td>$ticket_type[u['category']]</td>
   <td>$ticket_status[u['status']]</td>
   <td>$u.get('first_date', '')</td>

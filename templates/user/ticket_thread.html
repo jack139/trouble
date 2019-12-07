@@ -1,0 +1,170 @@
+$def with (name, str1, sku, user_list, ticket_type, ticket_source, ticket_status, image_list)
+
+$var title: 问题处理
+$var css: 
+$var name: $'|'.join(str1) $name
+$var js: 
+$var load: 
+$var menu: #tiop1
+
+<div class="caption"><h2>问题处理记录</h2></div>
+
+<input type="hidden" name="ticket_id" value="$sku['ticket_id']"/>
+<input type="hidden" name="open_uid" value="$sku['open_uid']"/>
+<input type="hidden" name="detail" id="detail" value="$sku.get('detail','')"/>
+<input type="hidden" name="image" id="form_image" value=""/>
+
+<table class="props_tb">
+<thead>
+    <tr class="even">
+        <th width="15%"> </th>
+        <th width="45%"> </th>
+        <th width="40%"> </th>
+    </tr>
+</thead>
+<tbody>
+
+<tr>
+    <td rowspan="8">
+        <div>问题&nbsp;&nbsp;<span style="color: #f00">#$sku['ticket_no']</span></div>
+        <br/><br/>
+        <div><b>$user_list[sku['open_uid']]</b> 提交</div>
+        <div><b>$user_list[sku['killer_uid']]</b> 处理</div>
+        <br/><br/>
+        $if sku['open_uid']==name or sku['killer_uid']==name:
+            <span><a class="abtn" href="/ticket/edit?ticket_id=$sku['ticket_id']">修改</a></span>
+    </td>
+    <td colspan="2" style="text-align: left;">
+        提交时间：$sku['first_date']
+    </td>
+</tr>
+<tr>
+    <td colspan="2" style="text-align: left;">
+        $sku.get('title','')
+    </td>
+</tr>
+
+<tr>
+    <td colspan="2" style="text-align: left;">
+        问题类型： $ticket_type[sku['category']] &nbsp;&nbsp;&nbsp;&nbsp;
+        问题来源： $ticket_source[sku['source']]
+    </td>
+</tr>
+
+<tr>
+    <td colspan="2" style="text-align: left;">
+        计划完成日期： $sku['plan_date']
+    </td>
+</tr>
+
+
+<tr>
+    <td colspan="2" style="text-align: left;">
+        <div>问题描述：</div>
+        <div>$:sku['detail']</div>
+    </td>
+</tr>
+
+
+<tr>
+    <td colspan="2" style="text-align: left;">
+        问题处理状态：$ticket_status[sku['status']]
+    </td>
+</tr>
+
+<tr>
+    <td colspan="2" style="text-align: left;">
+        附件：
+        <div>
+            <ul id="image-list">
+                $for i in image_list:
+                    $if len(i)>0:
+                        <li id="$(i[0].replace('.','_'))" style="text-align: left;">
+                            <a href="/static/upload/$(i[0][:2])/$i[0]" target="_blank">$i[1]</a>
+                        </li>
+            </ul>
+        </div>
+    </td>
+</tr>
+
+<tr>
+    <td colspan="2" style="text-align: left;">
+        最后编辑时间：$sku['last_date']
+    </td>
+</tr>
+
+</tbody>
+
+$for xx in sku.get('follow_list',[]):
+    <thead>
+        <tr class="even">
+            <th width="15%"> </th>
+            <th width="45%"> </th>
+            <th width="40%"> </th>
+        </tr>
+    </thead>
+    <tbody>
+
+    <tr>
+        <td rowspan="4">  
+            <div>回复&nbsp;&nbsp;<span style="color: #f00">#$loop.index</span></div>
+            <br/><br/>
+            <div><b>$user_list[xx['follow_uid']]</b> 提交</div>
+            <br/><br/>
+            $if xx['follow_uid']==name:
+                <span><a class="abtn" href="/ticket/follow?ticket_id=$sku['ticket_id']&follow_id=$loop.index0">修改</a></span>
+        </td>
+        <td colspan="2" style="text-align: left;">
+            提交时间：$xx['first_date']
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2" style="text-align: left;">
+            <div>回复内容：</div>
+            <div>$:xx['detail']</div>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2" style="text-align: left;">
+            附件：
+            <div>
+                <ul id="image-list">
+                    $for i in xx['image_list']:
+                        $if len(i)>0:
+                            <li id="$(i[0].replace('.','_'))" style="text-align: left;">
+                                <a href="/static/upload/$(i[0][:2])/$i[0]" target="_blank">$i[1]</a>
+                            </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2" style="text-align: left;">
+            最后编辑时间：$xx['last_date']
+        </td>
+    </tr>
+
+
+    </tbody>
+</table>
+
+<p>
+    <input type="button" name="cancel" value="回复问题" onclick="location.href = '/ticket/follow?ticket_id=$sku['ticket_id']';" />
+    <input type="button" name="cancel" value="返回" onclick="history.go(-1);" />
+<p>
+
+
+
+<div class="article_box">
+    <div>操作日志：</div>
+    <textarea rows="8" cols="80" id="history">
+    $for h in sku.get('history',[]):
+          $h[0]，用户：$h[1]，操作：$h[2]；
+    </textarea>
+</div>
+
+<br/>
+

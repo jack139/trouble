@@ -67,7 +67,15 @@ ticket 问题记录
 	killer_uid	问题处理人uid
 	first_date	首次提交时间
 	last_date	最后处理时间
-	close_date	问题关闭时间
+	images 		附件
+
+	follow_list: [
+		{
+			detail		问题描述（图文）
+			follow_uid	提交回复人的uid
+			images 		附件
+		}
+	]
 }
 
 
