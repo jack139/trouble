@@ -102,6 +102,8 @@ db.app_user.createIndex({openid:1},{ background: true })
 db.app_user.createIndex({last_status:1},{ background: true })
 db.app_user.createIndex({reg_time:1},{ background: true })
 
+db.base_image.createIndex({image:1},{ background: true })
+
 db.wx_user.createIndex({wx_user:1},{ background: true })
 db.wx_user.createIndex({last_tick:1},{ background: true })
 
