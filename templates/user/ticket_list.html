@@ -83,7 +83,7 @@ $for u in list:
   <td>$ticket_type[u['category']]</td>
   <td>$ticket_status[u['status']]</td>
   <td>$u.get('first_date', '')</td>
-  <td>$u.get('last_date', '')</td>
+  <td>$u.get('history', [])[-1][0]</td>
   </tr>
 </tbody>
 </table>
@@ -95,7 +95,7 @@ $for u in list:
     页码：
     $for x in pages:
       $if x!=current_page:
-        <a href="/ticket/list?page=$x&search_title=$search_title">$(x+1)</a>&nbsp;&nbsp;
+        <a href="/ticket/list?page=$x&search_title=$search_title&search_type=$search_type&search_status=$search_status&search_uid=$search_uid">$(x+1)</a>&nbsp;&nbsp;
       $else:
         <b>$(x+1)</b>&nbsp;&nbsp;
 </div>
