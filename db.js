@@ -112,4 +112,5 @@ db.duty.createIndex({duty_date:1},{ background: true })
 db.ticket.createIndex({category:1},{ background: true })
 db.ticket.createIndex({status:1},{ background: true })
 db.ticket.createIndex({killer_uid:1},{ background: true })
+db.ticket.createIndex({ticket_no:1},{ background: true })
 

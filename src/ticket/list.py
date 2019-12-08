@@ -28,7 +28,10 @@ class handler:
 
         search_name = user_data.search_title.strip()
         if search_name!='':
-            conditions['title'] = { '$regex' : u'%s.*'%(search_name.replace('*','\\*').replace('?','\\?')), '$options' : 'i' }
+            if search_name[0]=='#' and search_name[1:].isdigit():
+                conditions['ticket_no'] = int(search_name[1:])
+            else:
+                conditions['title'] = { '$regex' : u'%s.*'%(search_name.replace('*','\\*').replace('?','\\?')), '$options' : 'i' }
 
         search_type = user_data.search_type.strip()
         if search_type!='':

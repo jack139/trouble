@@ -153,7 +153,9 @@ $for xx in sku.get('follow_list',[]):
 
 <p>
     <input type="button" name="cancel" value="回复问题" onclick="location.href = '/ticket/follow?ticket_id=$sku['ticket_id']';" />
-    <input type="button" name="cancel" value="返回" onclick="history.go(-1);" />
+    <input type="button" name="cancel" value="返回上一操作" onclick="history.go(-1);" />
+    <input type="button" name="cancel" value="返回列表首页" onclick="location.href = '/ticket/list'" />
+
 <p>
 
 
