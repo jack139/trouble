@@ -101,6 +101,7 @@ class handler:
                 'category'   : int(user_data['category']),
                 'source'     : int(user_data['source']),
                 'detail'     : user_data['detail'],
+                'submitter'  : user_data['submitter'],
                 'plan_date'  : user_data['plan_date'],
                 'killer_uid' : user_data['killer_uid'],
                 'images'      : user_data['image'].split(','), # 上传文件

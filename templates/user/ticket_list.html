@@ -80,7 +80,7 @@ $for u in list:
   <tr>
   <td><a href="/ticket/thread?ticket_id=$u['_id']">#$u['ticket_no']</a></td>
   <td>$u.get('title', '')&nbsp;&nbsp;($len(u.get('follow_list',[])))</td>
-  <td>$ticket_type[u['category']]</td>
+  <td>$(ticket_type[u['category']] if u['category'] in ticket_type.keys() else '')</td>
   <td>$ticket_status[u['status']]</td>
   <td>$u.get('first_date', '')</td>
   <td>$u.get('history', [])[-1][0]</td>

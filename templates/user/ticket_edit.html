@@ -102,6 +102,14 @@ $else:
 </tr>
 
 
+<tr>
+    <td>问题提交人/科室</td>
+    <td colspan="2" style="text-align: left;">
+        <input type="text" name="submitter" size="50" value="$sku.get('submitter','')"/>    
+    </td>
+</tr>
+
+
 <tr><td>计划完成日期</td><td colspan="2" style="text-align: left;">
     $if sku['ticket_id']=='n/a':
         <input type="text" name="plan_date" id="plan_date" value="" readonly="readonly"/>
