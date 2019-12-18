@@ -51,10 +51,10 @@ function doFirst_pic()
     r9.on('fileAdded', function(file, event){
         var file_type = file.fileName.split('.');
 
-        if (file.size>1024*1024*10){
+        if (file.size>1024*1024*20){
             r9.cancel();
-            alertify.error("文件大小不能超过10MB");
-        } if (['jpg','png','doc','docx','xls','xlsx','pdf','ppt','pptx','zip','rar'].indexOf(file_type[file_type.length-1].toLowerCase())==-1){
+            alertify.error("文件大小不能超过20MB");
+        } else if (['jpg','png','doc','docx','xls','xlsx','pdf','ppt','pptx','zip','rar'].indexOf(file_type[file_type.length-1].toLowerCase())==-1){
             r9.cancel();
             alertify.error("只可以上传图片或文档");
         } else {

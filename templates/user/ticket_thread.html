@@ -25,7 +25,7 @@ $var menu: #tiop1
 <tbody>
 
 <tr>
-    <td rowspan="8">
+    <td rowspan="10">
         <div>问题&nbsp;&nbsp;<span style="color: #f00">#$sku['ticket_no']</span></div>
         <br/><br/>
         <div><b>$user_list[sku['open_uid']]</b> 提交</div>
@@ -35,7 +35,7 @@ $var menu: #tiop1
             <span><a class="abtn" href="/ticket/edit?ticket_id=$sku['ticket_id']">修改</a></span>
     </td>
     <td colspan="2" style="text-align: left;">
-        提交时间：$sku['first_date']
+        <b>提交时间：</b>$sku['first_date']
     </td>
 </tr>
 <tr>
@@ -46,50 +46,48 @@ $var menu: #tiop1
 
 <tr>
     <td colspan="2" style="text-align: left;">
-        问题类型： $(ticket_type[sku['category']] if sku['category'] in ticket_type.keys() else '') &nbsp;&nbsp;&nbsp;&nbsp;
-        问题来源： $(ticket_source[sku['source']] if sku['source'] in ticket_source.keys() else '')
+        <b>问题类型：</b> $(ticket_type[sku['category']] if sku['category'] in ticket_type.keys() else '') &nbsp;&nbsp;&nbsp;&nbsp;
+        <b>问题来源：</b> $(ticket_source[sku['source']] if sku['source'] in ticket_source.keys() else '')
     </td>
 </tr>
 
 <tr>
     <td colspan="2" style="text-align: left;">
-        计划完成日期： $sku['plan_date']
+        <b>计划完成日期：</b> $sku['plan_date']
     </td>
 </tr>
 
 
 <tr>
     <td colspan="2" style="text-align: left;">
-        <div>问题描述：</div>
+        <div><b>问题描述：</b></div>
         <div>$:sku['detail']</div>
     </td>
 </tr>
 
 <tr>
     <td colspan="2" style="text-align: left;">
-        <div>问题提交人/科室：</div>
-        <div>$sku.get('submitter','')</div>
+        <b>问题提交人/科室：</b> $sku.get('submitter','')
     </td>
 </tr>
 
 
 <tr>
     <td colspan="2" style="text-align: left;">
-        <div>厂商对接人：</div>
-        <div>$sku.get('vendor','')</div>
+        <b>厂商对接人：</b> $sku.get('vendor','')
     </td>
 </tr>
 
 
 <tr>
     <td colspan="2" style="text-align: left;">
-        问题处理状态：$ticket_status[sku['status']]
+        <b>问题处理状态：</b> $ticket_status[sku['status']]
     </td>
 </tr>
 
 <tr>
     <td colspan="2" style="text-align: left;">
-        附件：
+        <b>附件：</b>
         <div>
             <ul id="image-list">
                 $for i in image_list:
@@ -104,7 +102,7 @@ $var menu: #tiop1
 
 <tr>
     <td colspan="2" style="text-align: left;">
-        最后编辑时间：$sku['last_date']
+        <b>最后编辑时间：</b> $sku['last_date']
     </td>
 </tr>
 

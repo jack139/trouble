@@ -65,6 +65,8 @@ ticket 问题记录
 	plan_date	计划完成日期
 	open_uid	提交问题人的uid
 	killer_uid	问题处理人uid
+	submitter	问题提交人/科室
+	vendor		厂商对接人
 	first_date	首次提交时间
 	last_date	最后处理时间
 	images 		附件
@@ -113,4 +115,4 @@ db.ticket.createIndex({category:1},{ background: true })
 db.ticket.createIndex({status:1},{ background: true })
 db.ticket.createIndex({killer_uid:1},{ background: true })
 db.ticket.createIndex({ticket_no:1},{ background: true })
-
+db.ticket.createIndex({last_tick:1},{ background: true })

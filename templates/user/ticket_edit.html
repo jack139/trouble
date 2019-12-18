@@ -3,7 +3,7 @@ $def with (name, str1, sku, user_list, ticket_type, ticket_source, ticket_status
 $var title: 问题处理
 $var css: /static/css/jquery.datetimepicker.css /static/js/summernote/summernote-lite.css
 $var name: $'|'.join(str1) $name
-$var js: /static/js/jquery.datetimepicker.js /static/js/summernote/summernote-lite.js /static/js/summernote/lang/summernote-zh-CN.js /static/js/resumable.js /static/js/upload_pic.js
+$var js: /static/js/jquery.datetimepicker.js /static/js/summernote/summernote-lite.js /static/js/summernote/lang/summernote-zh-CN.js /static/js/resumable.js /static/js/upload_pic.js?v=1.2
 $var load: first_do();doFirst_pic();
 $var menu: #tiop1
 
@@ -163,7 +163,7 @@ $else:
     <td>上传附件</td>
     <td colspan="2" style="text-align: left;">
         <div>
-            <a class="abtn" href="javascript:void(0);" id="picBrowseButton">上传文件</a>（单个文件不超过10MB）
+            <a class="abtn" href="javascript:void(0);" id="picBrowseButton">上传文件</a>（单个文件不超过20MB）
             <ul id="image-list">
                 $for i in image_list:
                     $if len(i)>0:
