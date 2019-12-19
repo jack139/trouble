@@ -62,14 +62,17 @@ $$(function(){
     });
 
     $$('#export').click(function(){
-        var name = encodeURIComponent($$("#name").val());
-        var search_type = $$('select[name=search_type]').val();
-        var search_status = $$('select[name=search_status]').val();
-        var search_uid = $$('select[name=search_uid]').val();
+        alertify.confirm("提示", "确认要导出数据吗？",
+          function(){
+            var name = encodeURIComponent($$("#name").val());
+            var search_type = $$('select[name=search_type]').val();
+            var search_status = $$('select[name=search_status]').val();
+            var search_uid = $$('select[name=search_uid]').val();
 
-        location="/ticket/export?search_title="+name
-          +"&search_type="+search_type+"&search_status="+search_status
-          +"&search_uid="+search_uid;
+            location="/ticket/export?search_title="+name
+              +"&search_type="+search_type+"&search_status="+search_status
+              +"&search_uid="+search_uid;
+        },function(){});
     });
 
 });
