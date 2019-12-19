@@ -56,7 +56,7 @@ class handler:
 
         # 分页获取数据
         db_sku = db.ticket.find(conditions,
-            sort=[('last_tick', -1)],
+            sort=[('last_follow_tick', -1), ('last_tick', -1)],
             limit=PAGE_SIZE,
             skip=int(user_data['page'])*PAGE_SIZE
         )

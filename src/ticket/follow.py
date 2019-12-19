@@ -122,7 +122,10 @@ class handler:
                 return render.info('未找到问题回复的数据！')  
 
         db.ticket.update_one({'_id':ObjectId(user_data.ticket_id)}, {
-            '$set'  : {'follow_list' : follow_list},
+            '$set'  : {
+                'follow_list'      : follow_list,
+                'last_follow_tick' : int(time.time()),  # 更新时间戳
+            },
             '$push' : {
                 'history' : (helper.time_str(), helper.get_session_uname(), message), 
             }  # 纪录操作历史

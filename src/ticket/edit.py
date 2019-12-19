@@ -108,6 +108,7 @@ class handler:
                 'images'      : user_data['image'].split(','), # 上传文件
                 'last_date'  : helper.time_str(),
                 'last_tick'  : int(time.time()),  # 更新时间戳
+                'last_follow_tick'  : int(time.time()),  # 更新时间戳
             }
         except ValueError:
             return render.info('请在相应字段输入数字！')

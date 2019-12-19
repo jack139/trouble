@@ -44,6 +44,7 @@ $var menu: #tiop1
         </select>
       <span>标题内容/编号：<input type="text" id="name" value="" placeholder="编号前要加 #" /></span>
       <input type="button" id="search" value="搜索" />
+      <input type="button" id="export" value="导出" />
     </span>
 </div>
 
@@ -59,6 +60,18 @@ $$(function(){
           +"&search_type="+search_type+"&search_status="+search_status
           +"&search_uid="+search_uid;
     });
+
+    $$('#export').click(function(){
+        var name = encodeURIComponent($$("#name").val());
+        var search_type = $$('select[name=search_type]').val();
+        var search_status = $$('select[name=search_status]').val();
+        var search_uid = $$('select[name=search_uid]').val();
+
+        location="/ticket/export?search_title="+name
+          +"&search_type="+search_type+"&search_status="+search_status
+          +"&search_uid="+search_uid;
+    });
+
 });
 </script>
 
