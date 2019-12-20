@@ -102,6 +102,7 @@ TICKET_SOURCE = {
 
 TICKET_STATUS = {
     'WAIT'     : '需其他部门协调',
+    'DISCUSS'  : '需讨论',
     'OPEN'     : '处理中',
     #'PREOPEN'  : '等待重新处理',
     #'PRECLOSE' : '等待确认完成',

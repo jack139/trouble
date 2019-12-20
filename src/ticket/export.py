@@ -98,6 +98,7 @@ TITLE = [
     '首次提交时间',
     '最后处理时间',
     '问题描述',
+    '问题回复',
 ]
 
 def gen_data(wb, r1, user_list):
@@ -114,6 +115,13 @@ def gen_data(wb, r1, user_list):
 
         #print detail_text.encode('utf-8')
 
+        follow_list = x.get('follow_list', [])
+        follow_text = ''
+
+        for i in follow_list:
+            follow_text += i['last_date'] + '  ' + user_list[i['follow_uid']] + '\n'
+            follow_text += html2text.html2text(i['detail']) + '\n'
+
         data1.append([
             x['ticket_no'], # 问题编号
             x['title'], # 标题
@@ -128,6 +136,7 @@ def gen_data(wb, r1, user_list):
             x.get('first_date'), # '首次提交时间',
             x.get('last_date'), # '最后处理时间',
             detail_text, # '* 问题描述',
+            follow_text, # '* 问题回复',
         ])
 
         count += 1
