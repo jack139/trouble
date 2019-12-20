@@ -70,7 +70,7 @@ class handler:
 
         return render.ticket_list(helper.get_session_uname(), helper.get_privilege_name(), 
             range(0, num), db_sku, int(user_data['page']), search_name, search_type, search_status, search_uid,
-            helper.TICKET_TYPE,  helper.TICKET_STATUS, user_list)
+            helper.TICKET_TYPE,  helper.TICKET_STATUS, user_list, db_sku.count())
 
 
 

@@ -1,4 +1,4 @@
-$def with (name, str1, pages, list, current_page, search_title, search_type, search_status, search_uid, ticket_type, ticket_status, user_list)
+$def with (name, str1, pages, list, current_page, search_title, search_type, search_status, search_uid, ticket_type, ticket_status, user_list, num)
 
 $var title: 问题处理
 $var css:
@@ -79,6 +79,8 @@ $$(function(){
 </script>
 
 <div class="article_box">
+
+<div>符合条件的共 $num 条</div>
 
 <table class="props_tb">
 <thead>
