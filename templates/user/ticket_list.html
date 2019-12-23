@@ -14,31 +14,28 @@ $var menu: #tiop1
     <span><a class="abtn" href="/ticket/edit">新建问题</a></span>&nbsp;&nbsp;
     <span style="float: right;">
       <span>类型：
-        <select name="search_type">
-            <option value=''>--全部--</option>
+        <select name="search_type" multiple="multiple" size="5" style="vertical-align: top;">
             $for u in ticket_type.keys():
                 <option value="$u"
-                    $if search_type.isdigit() and int(search_type)==u:
+                    $if (search_type!='') and (u in [int(x) for x in search_type.split(',')]):
                         selected="selected" 
                 >$ticket_type[u]</option>
         </select>
       </span>
       <span>状态：
-        <select name="search_status">
-            <option value=''>--全部--</option>
+        <select name="search_status" multiple="multiple" size="5" style="vertical-align: top;">
             $for u in ticket_status.keys():
                 <option value="$u"
-                    $if search_status==u:
+                    $if (search_status!='') and (u in search_status.split(',')):
                         selected="selected"            
                 >$ticket_status[u]</option>
         </select>
       </span>
       <span>处理人：
-        <select name="search_uid">
-            <option value=''>--全部--</option>
+        <select name="search_uid" multiple="multiple" size="5" style="vertical-align: top;">
             $for u in user_list.keys():
                 <option value="$u"
-                    $if search_uid==u:
+                    $if (search_uid!='') and (u in search_uid.split(',')):
                         selected="selected"            
                 >$user_list[u]</option>
         </select>
@@ -48,13 +45,15 @@ $var menu: #tiop1
     </span>
 </div>
 
+<br/>
+
 <script type="text/javascript">
 $$(function(){
     $$('#search').click(function(){
         var name = encodeURIComponent($$("#name").val());
-        var search_type = $$('select[name=search_type]').val();
-        var search_status = $$('select[name=search_status]').val();
-        var search_uid = $$('select[name=search_uid]').val();
+        var search_type = $$('select[name=search_type]').val()||[];
+        var search_status = $$('select[name=search_status]').val()||[];
+        var search_uid = $$('select[name=search_uid]').val()||[];
 
         location="/ticket/list?search_title="+name
           +"&search_type="+search_type+"&search_status="+search_status
@@ -99,8 +98,8 @@ $for u in list:
   <tr>
   <td><a href="/ticket/thread?ticket_id=$u['_id']">#$u['ticket_no']</a></td>
   <td>$u.get('title', '')&nbsp;&nbsp;($len(u.get('follow_list',[])))</td>
-  <td>$(ticket_type[u['category']] if u['category'] in ticket_type.keys() else '')</td>
-  <td>$ticket_status[u['status']]</td>
+  <td>$(ticket_type[u['category']] if u['category'] in ticket_type.keys() else u['category'])</td>
+  <td>$(ticket_status[u['status']] if u['status'] in ticket_status.keys() else u['status'])</td>
   <td>$(user_list[u['killer_uid']] if u['killer_uid'] in user_list.keys() else u['killer_uid'])</td>
   <td>$u.get('first_date', '')</td>
   <td>$u.get('history', [])[-1][0]</td>
