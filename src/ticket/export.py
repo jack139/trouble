@@ -36,15 +36,20 @@ class handler:
 
         search_type = user_data.search_type.strip()
         if search_type!='':
-            conditions['category'] = int(search_type)
+            #conditions['category'] = int(search_type)
+            conditions['category'] = {'$in' : [int(x) for x in search_type.split(',')]}
 
         search_status = user_data.search_status.strip()
         if search_status!='':
-            conditions['status'] = search_status
+            #conditions['status'] = search_status
+            conditions['status'] = {'$in' : search_status.split(',')}
 
         search_uid = user_data.search_uid.strip()
         if search_uid!='':
-            conditions['killer_uid'] = search_uid
+            #conditions['killer_uid'] = search_uid
+            conditions['killer_uid'] = {'$in' : search_uid.split(',')}
+
+        print conditions
 
         # 用户列表, 及东华用户列表
         user_list = {}
